@@ -19,6 +19,7 @@ function App() {
         </p>
         <p>Записался на данный курс чтобы получить необходимые знания для применения на текущей работе.</p>
         <p>Telegram: @ivshaban</p>
+        <p>Email: react.dev.shabanov@mail.ru</p>
       </header>
     </div>
   );
