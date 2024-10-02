@@ -1,0 +1,8 @@
+.logo {
+    width: 30px;               
+    height: 30px;     
+    display: block;    
+    margin: 0 auto;
+    mix-blend-mode: darken;
+    border: none;
+}

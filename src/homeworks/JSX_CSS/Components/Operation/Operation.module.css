@@ -1,0 +1,12 @@
+.operation {
+    background-color: white;
+    width: 300px;
+    min-height: 200px;
+    position: relative;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+  }
