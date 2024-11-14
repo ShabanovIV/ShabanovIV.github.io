@@ -1,9 +1,7 @@
 {
-    "cSpell.words": [
-        "autodocs",
-        "clsx",
-        "predeploy",
-        "uuidv",
-        "сноубординга"
-    ]
+  "cSpell.words": ["autodocs", "clsx", "predeploy", "uuidv", "сноубординга"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": true
 }
