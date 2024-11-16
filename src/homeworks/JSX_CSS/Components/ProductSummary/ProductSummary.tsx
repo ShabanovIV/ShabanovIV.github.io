@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './ProductSummary.module.css';
+import styles from './ProductSummary.module.scss';
 import AddToCart from '../AddToCart/AddToCart';
 
 export interface ProductSummaryProps {

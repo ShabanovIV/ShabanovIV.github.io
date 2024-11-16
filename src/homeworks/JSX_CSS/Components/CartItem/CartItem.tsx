@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './CartItem.module.css';
+import styles from './CartItem.module.scss';
 import removeIcon from '../Images/Remove.png'; // Путь к иконке удаления
 import AddToCart from '../AddToCart/AddToCart';
 

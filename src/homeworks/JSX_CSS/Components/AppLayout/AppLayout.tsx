@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import HeaderMenu from '../HeaderMenu/HeaderMenu';
-import styles from './AppLayout.module.css';
+import styles from './AppLayout.module.scss';
 
 interface AppLayoutProps {
   children: ReactNode;

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './ContentModal.module.css';
+import styles from './ContentModal.module.scss';
 
 export interface ContentModalProps {
   visible: boolean;

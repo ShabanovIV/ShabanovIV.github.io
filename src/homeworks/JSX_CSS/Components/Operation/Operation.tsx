@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Operation.module.css';
+import styles from './Operation.module.scss';
 
 export interface OperationProps {
   amount: number;

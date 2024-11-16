@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './AddToCart.module.css';
+import styles from './AddToCart.module.scss';
 
 export interface AddToCartProps {
   count: number;
