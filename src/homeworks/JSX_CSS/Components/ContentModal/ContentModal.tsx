@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './ContentModal.module.scss';
+import { useLang } from '../LangProvider/LangProvider';
 
 export interface ContentModalProps {
   visible: boolean;
@@ -8,6 +9,7 @@ export interface ContentModalProps {
 }
 
 export const ContentModal: React.FC<ContentModalProps> = ({ visible, children, handleClose }) => {
+  const { getTranslate } = useLang();
   if (!visible) return null;
 
   return (
@@ -15,7 +17,7 @@ export const ContentModal: React.FC<ContentModalProps> = ({ visible, children, h
       <div className={styles.modalWindow}>
         <div className={styles.modalContent}>{children}</div>
         <button className={styles.modalCloseButton} onClick={handleClose}>
-          Закрыть
+          {getTranslate('contentModal.close')}
         </button>
       </div>
     </div>

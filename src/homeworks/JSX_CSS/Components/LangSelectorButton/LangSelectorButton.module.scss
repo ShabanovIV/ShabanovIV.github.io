@@ -1,0 +1,20 @@
+.langSelector {
+  display: inline-block;
+  width: 65px;
+}
+
+.langDropdown {
+  background-color: var(--myApp-background-color);
+  color: brown;
+  border: none;
+  width: 100%;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.langDropdown:focus {
+  outline: none;
+  border: none;
+}

@@ -1,25 +1,22 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import 'src/homeworks/JSX_CSS/Components/ThemeProvider/theme.scss';
+import { LangSelectorButton } from 'src/homeworks/JSX_CSS/Components/LangSelectorButton/LangSelectorButton';
+import { useLang } from 'src/homeworks/JSX_CSS/Components/LangProvider/LangProvider';
 
 function App() {
+  const { getTranslate } = useLang();
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Привет! Меня зовут Иван, я работаю в научно-исследовательском, проектом институте. Занимаюсь разработкой
-          лабораторно-информационной, менеджерской системы, предназначенной для автоматизации процессов лабораторных
-          исследований керна и пластовых флюидов.
-        </p>
-        <p>
-          На данный момент участвую в разработке новой версии приложения, в связи с переходом с Windows, .NET Framework,
-          WinForms, DevExpress, Oracle на Linux, .NET6, Asp.Net Core, PostgreSQL, React. Занимаюсь постановкой и
-          контролем выполнения задач, проектированием архитектуры и разработкой серверной части приложения.
-        </p>
-        <p>Записался на данный курс чтобы получить необходимые знания для применения на текущей работе.</p>
-        <p>Telegram: @ivshaban Email: react.dev.shabanov@mail.ru</p>
+        <LangSelectorButton />
       </header>
+      <p>{getTranslate('welcome.hello')}</p>
+      <p>{getTranslate('welcome.work')}</p>
+      <p>{getTranslate('welcome.tasks')}</p>
+      <p>Telegram: @ivshaban Email: react.dev.shabanov@mail.ru</p>
     </div>
   );
 }

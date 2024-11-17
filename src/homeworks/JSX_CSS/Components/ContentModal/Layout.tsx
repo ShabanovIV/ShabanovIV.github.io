@@ -1,9 +1,11 @@
 import React, { ChangeEvent, useState } from 'react';
 import { ContentModal } from './ContentModal';
+import { useLang } from '../LangProvider/LangProvider';
 
 export const Layout: React.FC = () => {
   const [content, setContent] = useState('');
   const [visible, setVisible] = useState(false);
+  const { getTranslate } = useLang();
 
   function handleChange(event: ChangeEvent<HTMLInputElement>): void {
     setContent(event.target.value);
@@ -20,10 +22,10 @@ export const Layout: React.FC = () => {
   return (
     <div>
       <label>
-        Введите сообщение:
+        {getTranslate('layout.title')}
         <input type="text" value={content} onChange={handleChange} />
       </label>
-      <button onClick={handleShow}>Показать</button>
+      <button onClick={handleShow}>{getTranslate('layout.show')}</button>
       <ContentModal visible={visible} handleClose={handleClose}>
         {content}
       </ContentModal>

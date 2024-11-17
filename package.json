@@ -70,8 +70,10 @@
   },
   "dependencies": {
     "clsx": "^1.2.1",
+    "i18next": "^23.16.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-i18next": "^15.1.1",
     "uuid": "^10.0.0"
   }
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StoryDecorator } from '../src/homeworks/JSX_CSS/Components/StoryDecorator/StoryDecorator';
 import type { Preview } from '@storybook/react';
+import '../src/homeworks/JSX_CSS/Components/LangProvider/translations';
 
 const preview: Preview = {
   parameters: {
