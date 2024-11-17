@@ -1,0 +1,13 @@
+.header {
+  position: sticky;
+  top: 0;
+  height: 30px;
+  width: 95%;
+  background-color: var(--myApp-background-color);
+  color: var(--myApp-text-color);
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

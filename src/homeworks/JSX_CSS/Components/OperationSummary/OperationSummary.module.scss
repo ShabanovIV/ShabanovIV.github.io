@@ -1,5 +1,6 @@
 .operationSummary {
-  background-color: white;
+  background-color: var(--myApp-background-color); // from theme
+  color: var(--myApp-text-color); // from theme
   width: 300px;
   min-height: 200px;
   position: relative;

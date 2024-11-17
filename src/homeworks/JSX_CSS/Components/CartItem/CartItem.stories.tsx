@@ -16,12 +16,10 @@ export const CartItemStory: Story = {
   render: () => (
     <div style={{ width: '400px' }}>
       <CartItem
-        item={{
-          id: 1,
-          name: 'Бюджетный сноуборд',
-          price: 999,
-          image: greenSnowboard,
-        }}
+        id={1}
+        name={'Бюджетный сноуборд'}
+        price={999}
+        image={greenSnowboard}
         onRemove={(id) => console.log(`Удаление элемента с id: ${id}`)}
       />
     </div>

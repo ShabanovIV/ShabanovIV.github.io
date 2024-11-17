@@ -1,0 +1,32 @@
+// Dark theme variables
+$dark-background-color: #333333;
+$dark-background-color-hover: #2c2c2c;
+$dark-text-color: #ffffff;
+
+// Light theme variables
+$light-background-color: #ffffff;
+$light-background-color-hover: #d8d8d8;
+$light-text-color: #333333;
+
+:root {
+  --myApp-background-color: #{$dark-background-color};
+  --myApp-background-color-hover: #{$dark-background-color-hover};
+  --myApp-text-color: #{$dark-text-color};
+}
+
+.myApp-light {
+  --myApp-background-color: #{$light-background-color};
+  --myApp-background-color-hover: #{$light-background-color-hover};
+  --myApp-text-color: #{$light-text-color};
+}
+
+.myApp-dark {
+  --myApp-background-color: #{$dark-background-color};
+  --myApp-background-color-hover: #{$dark-background-color-hover};
+  --myApp-text-color: #{$dark-text-color};
+}
+
+body {
+  background-color: var(--myApp-background-color);
+  color: var(--myApp-text-color);
+}

@@ -1,0 +1,17 @@
+.button {
+  background-color: var(--myApp-background-color); // from theme
+  width: 30px;
+  height: 30px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+}
+
+.icon {
+  background-color: var(--myApp-background-color); // from theme
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

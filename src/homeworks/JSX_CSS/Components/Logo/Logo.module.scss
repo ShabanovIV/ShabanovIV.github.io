@@ -1,8 +1,15 @@
 .logo {
-    width: 30px;               
-    height: 30px;     
-    display: block;    
-    margin: 0 auto;
-    mix-blend-mode: darken;
-    border: none;
+  width: 30px;
+  height: 30px;
+  display: block;
+  margin: 0 auto;
+  border: none;
+}
+
+.logoLight {
+  mix-blend-mode: hard-light;
+}
+
+.logoDark {
+  mix-blend-mode: lighten;
 }

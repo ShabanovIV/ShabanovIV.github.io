@@ -1,29 +1,30 @@
 import React from 'react';
 import styles from './CartItem.module.scss';
-import removeIcon from '../Images/Remove.png'; // Путь к иконке удаления
-import AddToCart from '../AddToCart/AddToCart';
+import removeIconLight from '../Images/Remove_light.png';
+import removeIconDark from '../Images/Remove_dark.png';
+import { Themes, useTheme } from '../ThemeProvider/ThemeProvider';
 
 interface CartItemProps {
-  item: {
-    id: number;
-    name: string;
-    price: number;
-    image: string;
-  };
+  id: number;
+  name: string;
+  price: number;
+  image: string;
   onRemove: (id: number) => void;
 }
 
-const CartItem: React.FC<CartItemProps> = ({ item, onRemove }) => {
+const CartItem: React.FC<CartItemProps> = ({ id, name, price, image, onRemove }) => {
+  const { theme } = useTheme();
+
   return (
     <div className={styles.cartItem}>
-      <img src={item.image} alt={item.name} className={styles.cartItemImage} />
+      <img src={image} alt={name} className={styles.cartItemImage} />
       <div className={styles.cartItemDetails}>
         <div className={styles.cartItemHeader}>
-          <h3>{item.name}</h3>
-          <p>{item.price} ₽</p>
+          <h3>{name}</h3>
+          <p>{price} ₽</p>
         </div>
-        <button onClick={() => onRemove(item.id)} className={styles.cartItemRemoveButton}>
-          <img src={removeIcon} alt="Удалить товар" />
+        <button onClick={() => onRemove(id)} className={styles.cartItemRemoveButton}>
+          <img src={theme === Themes.Dark ? removeIconDark : removeIconLight} alt="Удалить товар" />
         </button>
       </div>
     </div>

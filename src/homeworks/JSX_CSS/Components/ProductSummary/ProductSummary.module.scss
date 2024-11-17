@@ -1,5 +1,6 @@
 .productCard {
-  background-color: white;
+  background-color: var(--myApp-background-color); // from theme
+  color: var(--myApp-text-color); // from theme
   width: 300px;
   min-height: 200px;
   position: relative;
@@ -20,30 +21,38 @@
 }
 
 .productInfo {
+  background-color: var(--myApp-background-color); // from theme
+  color: var(--myApp-text-color); // from theme
   flex-grow: 1;
 }
 
 .productTitle {
+  background-color: var(--myApp-background-color); // from theme
+  color: var(--myApp-text-color); // from theme
   font-size: 18px;
   margin: 0;
 }
 
 .productDescription {
+  background-color: var(--myApp-background-color); // from theme
+  color: var(--myApp-text-color); // from theme
   font-size: 14px;
-  color: #666;
   margin: 5px 0;
 }
 
 .priceAndCart {
+  background-color: var(--myApp-background-color); // from theme
+  color: var(--myApp-text-color); // from theme
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .productPrice {
+  background-color: var(--myApp-background-color); // from theme
+  color: var(--myApp-text-color); // from theme
   font-size: 16px;
   font-weight: bold;
-  color: #333;
   margin-bottom: 10px;
   margin-right: 10px;
 }
