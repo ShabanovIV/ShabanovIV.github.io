@@ -17,7 +17,7 @@ const Operation: React.FC<OperationProps> = ({ amount, category, title, descript
       <p>Категория: {category}</p>
       <p>Сумма: {amount} ₽</p>
       <p>Описание: {description}</p>
-      <button disabled>Редактировать</button>
+      <button>Редактировать</button>
     </div>
   );
 };
