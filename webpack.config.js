@@ -67,6 +67,10 @@ module.exports = (_, args) => {
           type: 'asset/inline',
         },
         {
+          test: /\.png$/,
+          type: 'asset',
+        },
+        {
           test: /\.s[ac]ss$/i,
           use: [
             {

@@ -1,17 +1,20 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
-import 'src/homeworks/JSX_CSS/Components/ThemeProvider/theme.scss';
+import styles from './App.module.scss';
 import { LangSelectorButton } from 'src/homeworks/JSX_CSS/Components/LangSelectorButton/LangSelectorButton';
 import { useLang } from 'src/homeworks/JSX_CSS/Components/LangProvider/LangProvider';
+import { ThemeToggleButton } from 'src/homeworks/JSX_CSS/Components/ThemeToggleButton/ThemeToggleButton';
 
 function App() {
   const { getTranslate } = useLang();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    <div className={styles.App}>
+      <header className={styles.AppHeader}>
+        <div className={styles.AppHeaderContent}>
+          <img src={logo} className={styles.AppLogo} alt="logo" />
+        </div>
         <LangSelectorButton />
+        <ThemeToggleButton />
       </header>
       <p>{getTranslate('welcome.hello')}</p>
       <p>{getTranslate('welcome.work')}</p>

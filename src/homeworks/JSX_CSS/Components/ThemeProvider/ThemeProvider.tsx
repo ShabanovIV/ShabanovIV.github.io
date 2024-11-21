@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
-import './theme.scss';
+import styles from './ThemeProvider.module.scss';
 
 export const Themes = {
   Dark: 'myApp-dark',
@@ -31,8 +31,8 @@ export const ThemeProvider: React.FC<ThemProviderProps> = ({ children }) => {
   const toggleTheme = useCallback(() => {
     const newTheme = theme === Themes.Light ? Themes.Dark : Themes.Light;
     setTheme(newTheme);
-    document.body.classList.toggle(Themes.Dark, newTheme === Themes.Dark);
-    document.body.classList.toggle(Themes.Light, newTheme === Themes.Light);
+    document.body.classList.toggle(styles['myApp-dark'], newTheme === Themes.Dark);
+    document.body.classList.toggle(styles['myApp-light'], newTheme === Themes.Light);
   }, [theme]);
 
   return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
