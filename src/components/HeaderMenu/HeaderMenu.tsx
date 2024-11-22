@@ -3,6 +3,7 @@ import Logo from '../Logo/Logo';
 import styles from './HeaderMenu.module.scss';
 import { ThemeToggleButton } from '../ThemeToggleButton/ThemeToggleButton';
 import { useTheme } from '../ThemeProvider/ThemeProvider';
+import { LangSelectorButton } from '../LangSelectorButton/LangSelectorButton';
 
 function HeaderMenu() {
   const { theme } = useTheme();
@@ -13,6 +14,7 @@ function HeaderMenu() {
         <Logo />
       </div>
       <div className={styles.headerRight}>
+        <LangSelectorButton />
         <ThemeToggleButton />
       </div>
     </header>

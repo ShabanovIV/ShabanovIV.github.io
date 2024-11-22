@@ -67,7 +67,7 @@ module.exports = (_, args) => {
           type: 'asset/inline',
         },
         {
-          test: /\.png$/,
+          test: /\.(png|gif)$/,
           type: 'asset',
         },
         {
