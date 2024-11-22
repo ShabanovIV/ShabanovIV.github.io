@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
-import OperationSummary, { OperationSummaryProps } from './OperationSummary';
+import OperationSummary from './OperationSummary';
 import React from 'react';
+import { createOperationSummary } from '../Helpers/GenericListItemFactory';
 
 const meta: Meta<typeof OperationSummary> = {
   title: 'components/OperationSummary',
@@ -14,18 +15,14 @@ export const OperationSummaryLargeDescriptionStory: StoryObj<typeof OperationSum
     const description =
       'Покупка канцелярских товаров для офиса — ручки, блокноты и стикеры. Обеспечение рабочей зоны необходимыми мелочами для комфортной работы.';
 
-    const args: OperationSummaryProps = {
-      title: 'Покупка',
-      category: 'Канцелярия',
-      amount: 10,
-      description: description,
-    };
+    const operationSummary = createOperationSummary();
+
     return (
       <>
         <div>
           <p>Полный текст описания: {description}</p>
         </div>
-        <OperationSummary {...args} />
+        {operationSummary.createComponent()}
       </>
     );
   },

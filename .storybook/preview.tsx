@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StoryDecorator } from '../src/components/StoryDecorator/StoryDecorator';
 import type { Preview } from '@storybook/react';
 import '../src/components/LangProvider/translations';

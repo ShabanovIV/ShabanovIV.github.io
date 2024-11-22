@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import CartItem from './CartItem';
-import greenSnowboard from '../StoryImages/GreenSnowboard.png';
+import greenSnowboard from '../StoryImages/1.jpg';
 import React from 'react';
 
 const meta: Meta<typeof CartItem> = {

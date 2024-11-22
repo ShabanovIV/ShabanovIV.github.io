@@ -1,12 +1,22 @@
 import React from 'react';
 import styles from './ProductSummary.module.scss';
 import AddToCart from '../AddToCart/AddToCart';
+import { IGenericListItem } from '../Abstract/IGenericListItem';
 
-export interface ProductSummaryProps {
+export class ProductSummaryProps implements IGenericListItem {
+  id: string;
   price: number;
   imageUrl: string;
   title: string;
   description: string;
+
+  public get key() {
+    return this.id;
+  }
+
+  public createComponent() {
+    return <ProductSummary {...this} />;
+  }
 }
 
 const ProductSummary: React.FC<ProductSummaryProps> = ({ price, imageUrl, title, description }) => {
@@ -21,7 +31,7 @@ const ProductSummary: React.FC<ProductSummaryProps> = ({ price, imageUrl, title,
           {truncatedDescription}
         </p>
         <div className={styles.priceAndCart}>
-          <p className={styles.productPrice}>{price} ₽</p>
+          {price} ₽
           <AddToCart count={0} />
         </div>
       </div>

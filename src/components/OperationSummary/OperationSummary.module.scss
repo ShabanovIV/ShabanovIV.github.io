@@ -1,13 +1,37 @@
 .operationSummary {
-  background-color: var(--myApp-background-color); // from theme
-  color: var(--myApp-text-color); // from theme
-  width: 300px;
-  min-height: 200px;
-  position: relative;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.6);
-  border-radius: 8px;
+  width: 100%;
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: var(--myApp-background-color);
+  color: var(--myApp-text-color);
+  cursor: pointer;
+  border: 1px solid var(--myApp-border-color);
+  padding: 5px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.operationSummary:hover {
+  box-shadow: 0 3px 3px var(--myApp-shadow-color);
+  transform: translateY(-2px);
+}
+
+.operationSummary h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: auto;
+  margin-bottom: auto;
+  color: var(--myApp-title-color, inherit);
+}
+
+.operationSummary p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 4px 0;
+}
+
+.operationSummary p:last-of-type {
+  margin-top: 8px;
+  font-style: italic;
+  opacity: 0.8;
 }
