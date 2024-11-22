@@ -1,9 +1,9 @@
 import React from 'react';
 import logo from './logo.svg';
 import styles from './App.module.scss';
-import { LangSelectorButton } from 'src/homeworks/JSX_CSS/Components/LangSelectorButton/LangSelectorButton';
-import { useLang } from 'src/homeworks/JSX_CSS/Components/LangProvider/LangProvider';
-import { ThemeToggleButton } from 'src/homeworks/JSX_CSS/Components/ThemeToggleButton/ThemeToggleButton';
+import { LangSelectorButton } from 'src/components/LangSelectorButton/LangSelectorButton';
+import { useLang } from 'src/components/LangProvider/LangProvider';
+import { ThemeToggleButton } from 'src/components/ThemeToggleButton/ThemeToggleButton';
 
 function App() {
   const { getTranslate } = useLang();
