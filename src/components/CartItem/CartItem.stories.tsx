@@ -4,7 +4,7 @@ import greenSnowboard from '../StoryImages/GreenSnowboard.png';
 import React from 'react';
 
 const meta: Meta<typeof CartItem> = {
-  title: 'Homework/JSX_CSS/CartItem',
+  title: 'components/CartItem',
   component: CartItem,
 };
 

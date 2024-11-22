@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import Operation, { OperationProps } from './Operation';
 
 const meta: Meta<typeof Operation> = {
-  title: 'Homework/JSX_CSS/Operation',
+  title: 'components/Operation',
   component: Operation,
 };
 

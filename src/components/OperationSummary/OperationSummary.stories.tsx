@@ -3,7 +3,7 @@ import OperationSummary, { OperationSummaryProps } from './OperationSummary';
 import React from 'react';
 
 const meta: Meta<typeof OperationSummary> = {
-  title: 'Homework/JSX_CSS/OperationSummary',
+  title: 'components/OperationSummary',
   component: OperationSummary,
 };
 

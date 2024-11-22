@@ -3,7 +3,7 @@ import HeaderMenu from './HeaderMenu';
 import React from 'react';
 
 const meta: Meta<typeof HeaderMenu> = {
-  title: 'Homework/JSX_CSS/HeaderMenu',
+  title: 'components/HeaderMenu',
   component: HeaderMenu,
 };
 

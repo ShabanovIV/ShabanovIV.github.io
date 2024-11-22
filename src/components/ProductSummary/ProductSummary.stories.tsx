@@ -4,7 +4,7 @@ import redSnowboard from '../StoryImages/RedSnowboard.png';
 import greenSnowboard from '../StoryImages/GreenSnowboard.png';
 
 const meta: Meta<typeof ProductSummary> = {
-  title: 'Homework/JSX_CSS/ProductSummary',
+  title: 'components/ProductSummary',
   component: ProductSummary,
 };
 

@@ -5,7 +5,7 @@ import { Layout } from './Layout';
 import debug from 'debug';
 
 const meta: Meta<typeof ContentModal> = {
-  title: 'Homework/JSX_CSS/ContentModal',
+  title: 'components/ContentModal',
   component: ContentModal,
 };
 

@@ -3,7 +3,7 @@ import React from 'react';
 import AppLayout from './AppLayout';
 
 const meta: Meta<typeof AppLayout> = {
-  title: 'Homework/JSX_CSS/AppLayout',
+  title: 'components/AppLayout',
   component: AppLayout,
 };
 
