@@ -1,29 +1,32 @@
 // Dark theme variables
-$dark-background-color: #333333;
-$dark-background-color-hover: #2c2c2c;
-$dark-text-color: #ffffff;
-
-// Light theme variables
-$light-background-color: #ffffff;
-$light-background-color-hover: #d8d8d8;
-$light-text-color: #333333;
+$default-background-color: #333333;
+$default-background-color-hover: #2c2c2c;
+$default-text-color: #ffffff;
+$default_shadow-color: black;
+$default_border-color: rgb(58, 58, 58);
 
 :root {
-  --myApp-background-color: #{$dark-background-color};
-  --myApp-background-color-hover: #{$dark-background-color-hover};
-  --myApp-text-color: #{$dark-text-color};
+  --myApp-background-color: #{$default-background-color};
+  --myApp-background-color-hover: #{$default-background-color-hover};
+  --myApp-text-color: #{$default-text-color};
+  --myApp-shadow-color: #{$default_shadow-color};
+  --myApp-border-color: #{$default_border-color};
 }
 
 .myApp-light {
-  --myApp-background-color: #{$light-background-color};
-  --myApp-background-color-hover: #{$light-background-color-hover};
-  --myApp-text-color: #{$light-text-color};
+  --myApp-background-color: #ffffff;
+  --myApp-background-color-hover: #d8d8d8;
+  --myApp-text-color: #333333;
+  --myApp-shadow-color: rgba(0, 0, 0, 0.15);
+  --myApp-border-color: #eeeeee;
 }
 
 .myApp-dark {
-  --myApp-background-color: #{$dark-background-color};
-  --myApp-background-color-hover: #{$dark-background-color-hover};
-  --myApp-text-color: #{$dark-text-color};
+  --myApp-background-color: #{$default-background-color};
+  --myApp-background-color-hover: #{$default-background-color-hover};
+  --myApp-text-color: #{$default-text-color};
+  --myApp-shadow-color: #{$default_shadow-color};
+  --myApp-border-color: #{$default_border-color};
 }
 
 body {

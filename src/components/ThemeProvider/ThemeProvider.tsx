@@ -20,8 +20,8 @@ export interface ThemProviderProps {
 }
 
 const getCurrentThemeFromBody = (): Theme => {
-  if (document.body.classList.contains(Themes.Dark)) return Themes.Dark;
-  if (document.body.classList.contains(Themes.Light)) return Themes.Light;
+  if (document.body.classList.contains(styles[Themes.Dark])) return Themes.Dark;
+  if (document.body.classList.contains(styles[Themes.Light])) return Themes.Light;
   return Themes.Dark;
 };
 
@@ -31,8 +31,8 @@ export const ThemeProvider: React.FC<ThemProviderProps> = ({ children }) => {
   const toggleTheme = useCallback(() => {
     const newTheme = theme === Themes.Light ? Themes.Dark : Themes.Light;
     setTheme(newTheme);
-    document.body.classList.toggle(styles['myApp-dark'], newTheme === Themes.Dark);
-    document.body.classList.toggle(styles['myApp-light'], newTheme === Themes.Light);
+    document.body.classList.toggle(styles[Themes.Dark], newTheme === Themes.Dark);
+    document.body.classList.toggle(styles[Themes.Light], newTheme === Themes.Light);
   }, [theme]);
 
   return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
