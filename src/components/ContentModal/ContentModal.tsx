@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import styles from './ContentModal.module.scss';
 import { useLang } from '../LangProvider/LangProvider';
 
@@ -12,7 +13,7 @@ export const ContentModal: React.FC<ContentModalProps> = ({ visible, children, h
   const { getTranslate } = useLang();
   if (!visible) return null;
 
-  return (
+  return ReactDOM.createPortal(
     <div className={styles.modalOverlay}>
       <div className={styles.modalWindow}>
         <div className={styles.modalContent}>{children}</div>
@@ -20,6 +21,7 @@ export const ContentModal: React.FC<ContentModalProps> = ({ visible, children, h
           {getTranslate('contentModal.close')}
         </button>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
