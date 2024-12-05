@@ -13,13 +13,13 @@ export const GenericList = <TItem extends IGenericListItem>({
   items,
   lastItemRef,
 }: IGenericListProps<TItem>) => {
-  return (
-    <ul className={`${styles.list} ${isGrid ? styles.listGrid : ''}`}>
-      {items.map((item, index) => (
-        <MemoizedListItem key={item.key} item={item} ref={setRefForLast(items.length, index, lastItemRef)} />
-      ))}
-    </ul>
-  );
+  const memoItems = React.useMemo(() => {
+    return items.map((item, index) => (
+      <MemoizedListItem key={item.key} item={item} ref={setRefForLast(items.length, index, lastItemRef)} />
+    ));
+  }, [items, lastItemRef]);
+
+  return <ul className={`${styles.list} ${isGrid ? styles.listGrid : ''}`}>{memoItems}</ul>;
 };
 
 type ListItemProps<TItem> = {
@@ -27,7 +27,6 @@ type ListItemProps<TItem> = {
 };
 
 const ListItem = React.forwardRef<HTMLLIElement, ListItemProps<IGenericListItem>>(({ item }, ref) => {
-  console.log(`render ${item.key}`);
   return (
     <li id={item.key} ref={ref} className={styles.listItem}>
       {item.createComponent()}

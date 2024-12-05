@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import { GenericList } from './GenericList';
 import {
@@ -7,7 +7,7 @@ import {
   createOperationSummary,
   createProductSummary,
 } from '../Helpers/GenericListItemFactory';
-import GenericListObserver from './GenericListObserver';
+import GenericListObserver, { IGenericListObserverProps } from './GenericListObserver';
 
 const meta: Meta<typeof GenericList> = {
   title: 'components/GenericList',
@@ -17,36 +17,32 @@ const meta: Meta<typeof GenericList> = {
 export default meta;
 
 const fetchProducts = () => createCollection(20, createProductSummary);
+const fetchOperations = () => createCollection(20, createOperation);
+
+const GenericListLazyLoadStory: React.FC<IGenericListObserverProps> = ({ isGrid, fetchItems }) => {
+  const [isGridStore, setIsGrid] = useState(isGrid);
+
+  function handleChange(): void {
+    setIsGrid((prevIsGridStore) => !prevIsGridStore);
+  }
+
+  return (
+    <div>
+      <button onClick={handleChange}>{`Использовать сетку: ${isGridStore}`}</button>
+      <GenericListObserver isGrid={isGridStore} fetchItems={fetchItems} />
+    </div>
+  );
+};
 
 export const GenericListProductSummaryLazyLoadStory: StoryObj<typeof GenericListObserver> = {
   render: () => {
-    const args = {
-      isGrid: true,
-      fetchItems: fetchProducts,
-    };
-
-    return (
-      <>
-        <GenericListObserver {...args} />
-      </>
-    );
+    return <GenericListLazyLoadStory isGrid={true} fetchItems={fetchProducts}></GenericListLazyLoadStory>;
   },
 };
 
-const fetchOperations = () => createCollection(20, createOperation);
-
 export const GenericListOperationLazyLoadStory: StoryObj<typeof GenericListObserver> = {
   render: () => {
-    const args = {
-      isGrid: false,
-      fetchItems: fetchOperations,
-    };
-
-    return (
-      <>
-        <GenericListObserver {...args} />
-      </>
-    );
+    return <GenericListLazyLoadStory isGrid={false} fetchItems={fetchOperations}></GenericListLazyLoadStory>;
   },
 };
 
