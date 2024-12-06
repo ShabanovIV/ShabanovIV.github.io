@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './AddToCart.module.scss';
+import { TextButton } from '../ui/TextButton/TextButton';
 
 export interface AddToCartProps {
   count: number;
@@ -13,14 +14,26 @@ const AddToCart: React.FC<AddToCartProps> = ({ count }) => {
   if (count === 0) {
     return (
       <div className={styles.containerCart}>
-        <button className={styles.buttonInCart}>В корзину</button>
+        <TextButton
+          text={'В корзину'}
+          borderVisible={false}
+          borderRounded={true}
+          maxTextLength={Infinity}
+          handleClick={undefined}
+        />
       </div>
     );
   }
 
   return (
     <div className={styles.containerCart}>
-      <button className={styles.buttonCart}>-</button>
+      <TextButton
+        text={'-'}
+        borderVisible={true}
+        borderRounded={false}
+        maxTextLength={Infinity}
+        handleClick={undefined}
+      />
       <input
         className={styles.inputCart}
         title="Введите количество товара"
@@ -28,7 +41,13 @@ const AddToCart: React.FC<AddToCartProps> = ({ count }) => {
         value={count}
         onChange={handleInputChange}
       />
-      <button className={styles.buttonCart}>+</button>
+      <TextButton
+        text={'+'}
+        borderVisible={true}
+        borderRounded={false}
+        maxTextLength={Infinity}
+        handleClick={undefined}
+      />
     </div>
   );
 };

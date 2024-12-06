@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import styles from './ContentModal.module.scss';
 import { useLang } from '../LangProvider/LangProvider';
+import { TextButton } from '../ui/TextButton/TextButton';
 
 export interface ContentModalProps {
   visible: boolean;
@@ -17,9 +18,13 @@ export const ContentModal: React.FC<ContentModalProps> = ({ visible, children, h
     <div className={styles.modalOverlay}>
       <div className={styles.modalWindow}>
         <div className={styles.modalContent}>{children}</div>
-        <button className={styles.modalCloseButton} onClick={handleClose}>
-          {getTranslate('contentModal.close')}
-        </button>
+        <TextButton
+          text={getTranslate('contentModal.close')}
+          borderVisible={false}
+          borderRounded={true}
+          maxTextLength={Infinity}
+          handleClick={handleClose}
+        />
       </div>
     </div>,
     document.body

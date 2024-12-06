@@ -3,6 +3,7 @@ import styles from './CartItem.module.scss';
 import removeIconLight from '../Images/Remove_light.png';
 import removeIconDark from '../Images/Remove_dark.png';
 import { Themes, useTheme } from '../ThemeProvider/ThemeProvider';
+import { ImageButton, Sizes } from '../ui/ImageButton/ImageButton';
 
 interface CartItemProps {
   id: number;
@@ -23,9 +24,14 @@ const CartItem: React.FC<CartItemProps> = ({ id, name, price, image, onRemove })
           <h3>{name}</h3>
           <p>{price} ₽</p>
         </div>
-        <button onClick={() => onRemove(id)} className={styles.cartItemRemoveButton}>
-          <img src={theme === Themes.Dark ? removeIconDark : removeIconLight} alt="Удалить товар" />
-        </button>
+        <div className={styles.cartItemRemoveButton}>
+          <ImageButton
+            src={theme === Themes.Dark ? removeIconDark : removeIconLight}
+            size={Sizes.Middle}
+            alt="Удалить товар"
+            handleClick={() => onRemove(id)}
+          ></ImageButton>
+        </div>
       </div>
     </div>
   );

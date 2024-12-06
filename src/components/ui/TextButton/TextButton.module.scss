@@ -1,0 +1,27 @@
+.button {
+  background-color: var(--myApp-background-color);
+  color: var(--myApp-text-color);
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  display: inline-block;
+  line-height: 1;
+  cursor: pointer;
+  padding: 5px 5px;
+}
+
+.button:hover {
+  background-color: var(--myApp-background-color-hover);
+}
+
+.borderVisible {
+  border: 1px solid;
+  border-color: var(--myApp-border-color);
+}
+
+.borderHide {
+  border: 0;
+}
+
+.borderRound {
+  border-radius: 5px;
+}

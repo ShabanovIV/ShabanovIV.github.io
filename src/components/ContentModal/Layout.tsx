@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { ContentModal } from './ContentModal';
 import { useLang } from '../LangProvider/LangProvider';
+import { TextButton } from '../ui/TextButton/TextButton';
 
 export const Layout: React.FC = () => {
   const [content, setContent] = useState('');
@@ -25,7 +26,13 @@ export const Layout: React.FC = () => {
         {getTranslate('layout.title')}
         <input type="text" value={content} onChange={handleChange} />
       </label>
-      <button onClick={handleShow}>{getTranslate('layout.show')}</button>
+      <TextButton
+        text={getTranslate('layout.show')}
+        borderVisible={false}
+        borderRounded={true}
+        maxTextLength={Infinity}
+        handleClick={handleShow}
+      />
       <ContentModal visible={visible} handleClose={handleClose}>
         {content}
       </ContentModal>

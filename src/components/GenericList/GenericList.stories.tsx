@@ -8,6 +8,7 @@ import {
   createProductSummary,
 } from '../Helpers/GenericListItemFactory';
 import GenericListObserver, { IGenericListObserverProps } from './GenericListObserver';
+import { TextButton } from '../ui/TextButton/TextButton';
 
 const meta: Meta<typeof GenericList> = {
   title: 'components/GenericList',
@@ -28,7 +29,13 @@ const GenericListLazyLoadStory: React.FC<IGenericListObserverProps> = ({ isGrid,
 
   return (
     <div>
-      <button onClick={handleChange}>{`Использовать сетку: ${isGridStore}`}</button>
+      <TextButton
+        text={`Использовать сетку: ${isGridStore}`}
+        borderVisible={false}
+        borderRounded={true}
+        maxTextLength={Infinity}
+        handleClick={handleChange}
+      />
       <GenericListObserver isGrid={isGridStore} fetchItems={fetchItems} />
     </div>
   );
