@@ -6,7 +6,7 @@ import { TextButton } from '../ui/TextButton/TextButton';
 
 export interface ContentModalProps {
   visible: boolean;
-  children: React.ReactNode;
+  children: string;
   handleClose: () => void;
 }
 

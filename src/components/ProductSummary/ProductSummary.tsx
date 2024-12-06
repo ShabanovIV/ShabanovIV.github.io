@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './ProductSummary.module.scss';
 import AddToCart from '../AddToCart/AddToCart';
 import { IGenericListItem } from '../Abstract/IGenericListItem';
+import { rubFormatter } from '../formats';
 
 export class ProductSummaryProps implements IGenericListItem {
   id: string;
@@ -9,6 +10,9 @@ export class ProductSummaryProps implements IGenericListItem {
   imageUrl: string;
   title: string;
   description: string;
+  onIncrement: () => void;
+  onDecrement: () => void;
+  onCountChange: React.ChangeEventHandler<HTMLInputElement>;
 
   public get key() {
     return this.id;
@@ -19,9 +23,17 @@ export class ProductSummaryProps implements IGenericListItem {
   }
 }
 
-const ProductSummary: React.FC<ProductSummaryProps> = ({ price, imageUrl, title, description }) => {
+const ProductSummary: React.FC<ProductSummaryProps> = ({
+  price,
+  imageUrl,
+  title,
+  description,
+  onIncrement,
+  onDecrement,
+  onCountChange,
+}) => {
   const truncatedDescription = description.length > 50 ? `${description.slice(0, 50)}...` : description;
-
+  const formattedPrice = rubFormatter.format(price);
   return (
     <div className={styles.productCard}>
       <img src={imageUrl} alt={title} className={styles.productImage} />
@@ -31,8 +43,8 @@ const ProductSummary: React.FC<ProductSummaryProps> = ({ price, imageUrl, title,
           {truncatedDescription}
         </p>
         <div className={styles.priceAndCart}>
-          {price} ₽
-          <AddToCart count={0} />
+          {formattedPrice}
+          <AddToCart count={0} onIncrement={onIncrement} onDecrement={onDecrement} onCountChange={onCountChange} />
         </div>
       </div>
     </div>

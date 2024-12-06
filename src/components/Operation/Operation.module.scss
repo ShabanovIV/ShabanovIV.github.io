@@ -1,4 +1,4 @@
-.operationSummary {
+.operation {
   font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   background-color: var(--myApp-background-color);
   color: var(--myApp-text-color);
@@ -10,12 +10,12 @@
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-.operationSummary:hover {
+.operation:hover {
   box-shadow: 0 3px 3px var(--myApp-shadow-color);
   transform: translateY(-2px);
 }
 
-.operationSummary h3 {
+.operation h3 {
   font-size: 1.5rem;
   font-weight: 600;
   margin-top: auto;
@@ -23,33 +23,14 @@
   color: var(--myApp-title-color, inherit);
 }
 
-.operationSummary p {
+.operation p {
   font-size: 1rem;
   line-height: 1.5;
   margin: 4px 0;
 }
 
-.operationSummary p:last-of-type {
+.operation p:last-of-type {
   margin-top: 8px;
   font-style: italic;
   opacity: 0.8;
-}
-
-.operation button {
-  background-color: var(--myApp-background-color); // from theme
-  color: var(--myApp-text-color); // from theme
-  cursor: pointer;
-  width: 100%;
-  height: 100%;
-  margin: 5;
-  padding: 5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  transition: background-color 0.3s ease;
-}
-
-.operation button:hover {
-  background-color: var(--myApp-background-color-hover); // from theme
 }

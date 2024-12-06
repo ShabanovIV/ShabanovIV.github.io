@@ -4,13 +4,12 @@ import { TextButton } from '../ui/TextButton/TextButton';
 
 export interface AddToCartProps {
   count: number;
+  onIncrement: () => void;
+  onDecrement: () => void;
+  onCountChange: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-const AddToCart: React.FC<AddToCartProps> = ({ count }) => {
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-  };
-
+const AddToCart: React.FC<AddToCartProps> = ({ count, onIncrement, onDecrement, onCountChange }) => {
   if (count === 0) {
     return (
       <div className={styles.containerCart}>
@@ -32,21 +31,21 @@ const AddToCart: React.FC<AddToCartProps> = ({ count }) => {
         borderVisible={true}
         borderRounded={false}
         maxTextLength={Infinity}
-        handleClick={undefined}
+        handleClick={onDecrement}
       />
       <input
         className={styles.inputCart}
         title="Введите количество товара"
         type="text"
         value={count}
-        onChange={handleInputChange}
+        onChange={onCountChange}
       />
       <TextButton
         text={'+'}
         borderVisible={true}
         borderRounded={false}
         maxTextLength={Infinity}
-        handleClick={undefined}
+        handleClick={onIncrement}
       />
     </div>
   );

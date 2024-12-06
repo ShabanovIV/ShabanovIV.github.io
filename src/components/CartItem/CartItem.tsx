@@ -4,6 +4,7 @@ import removeIconLight from '../Images/Remove_light.png';
 import removeIconDark from '../Images/Remove_dark.png';
 import { Themes, useTheme } from '../ThemeProvider/ThemeProvider';
 import { ImageButton, Sizes } from '../ui/ImageButton/ImageButton';
+import { rubFormatter } from '../formats';
 
 interface CartItemProps {
   id: number;
@@ -15,6 +16,7 @@ interface CartItemProps {
 
 const CartItem: React.FC<CartItemProps> = ({ id, name, price, image, onRemove }) => {
   const { theme } = useTheme();
+  const formattedPrice = rubFormatter.format(price);
 
   return (
     <div className={styles.cartItem}>
@@ -22,7 +24,7 @@ const CartItem: React.FC<CartItemProps> = ({ id, name, price, image, onRemove })
       <div className={styles.cartItemDetails}>
         <div className={styles.cartItemHeader}>
           <h3>{name}</h3>
-          <p>{price} ₽</p>
+          <p>{formattedPrice}</p>
         </div>
         <div className={styles.cartItemRemoveButton}>
           <ImageButton

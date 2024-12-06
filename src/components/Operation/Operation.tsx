@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Operation.module.scss';
 import { IGenericListItem } from '../Abstract/IGenericListItem';
+import { rubFormatter } from '../formats';
 
 export class OperationProps implements IGenericListItem {
   public id: string;
@@ -20,13 +21,14 @@ export class OperationProps implements IGenericListItem {
 }
 
 const Operation: React.FC<OperationProps> = ({ amount, category, title, description, date }) => {
+  const formattedAmount = rubFormatter.format(amount);
   return (
-    <div className={styles.operationSummary}>
+    <div className={styles.operation}>
       <h3>
         {title} от {date.toLocaleDateString()}
       </h3>
       <p>
-        {category} {amount} ₽
+        {category} {formattedAmount}
       </p>
       <p>{description}</p>
     </div>

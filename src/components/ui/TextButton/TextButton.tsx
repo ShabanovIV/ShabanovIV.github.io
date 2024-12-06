@@ -18,13 +18,12 @@ export const TextButton: React.FC<ITextButtonProps> = ({
 }) => {
   const truncatedText =
     maxTextLength > 0 && maxTextLength < text.length ? `${text.substring(0, maxTextLength)}...` : text;
-  const classNames = `${styles.button} ${borderVisible ? styles.borderVisible : styles.borderHide} ${
-    borderRounded ? styles.borderRound : ''
+  const classNames = `${borderVisible ? styles.borderVisible : styles.borderHide} ${
+    borderRounded && styles.borderRound
   }`;
-  console.log(classNames);
 
   return (
-    <button title={text} onClick={handleClick} className={classNames}>
+    <button title={text} onClick={handleClick} className={`${styles.button} ${classNames}`}>
       {truncatedText}
     </button>
   );
