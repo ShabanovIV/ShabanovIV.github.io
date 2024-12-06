@@ -1,9 +1,6 @@
 import React from 'react';
-import logo from './logo.svg';
 import styles from './App.module.scss';
-import { LangSelectorButton } from 'src/components/LangSelectorButton/LangSelectorButton';
 import { useLang } from 'src/components/LangProvider/LangProvider';
-import { ThemeToggleButton } from 'src/components/ThemeToggleButton/ThemeToggleButton';
 import HeaderMenu from 'src/components/HeaderMenu/HeaderMenu';
 
 function App() {
