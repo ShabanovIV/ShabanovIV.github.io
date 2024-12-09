@@ -13,12 +13,13 @@ export interface IImageButtonProps {
   src: string;
   size: Size;
   alt: string;
-  handleClick: React.MouseEventHandler<HTMLButtonElement>;
+  handleClick?: React.MouseEventHandler<HTMLButtonElement>;
+  handleMouseDown?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export const ImageButton: React.FC<IImageButtonProps> = ({ src, size, alt, handleClick }) => {
+export const ImageButton: React.FC<IImageButtonProps> = ({ src, size, alt, handleClick, handleMouseDown }) => {
   return (
-    <button onClick={handleClick} className={`${styles.button} ${styles[size]}`}>
+    <button onClick={handleClick} onMouseDown={handleMouseDown} className={`${styles.button} ${styles[size]}`}>
       <img src={src} alt={alt} />
     </button>
   );

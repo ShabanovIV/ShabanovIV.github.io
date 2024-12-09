@@ -1,0 +1,41 @@
+.root {
+  position: relative;
+  display: inline-block;
+  transition: border-color 0.3s;
+  border: 1px solid transparent;
+  z-index: 1;
+}
+
+.wrapper {
+  padding: 0;
+  border: 1px solid #eff1f3;
+  border-color: var(--myApp-border-color);
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.resizer {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding: 0;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  right: 0;
+  bottom: 0;
+  cursor: move;
+  outline: none;
+}
+
+.resizer img {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  object-fit: cover;
+  pointer-events: none;
+}
