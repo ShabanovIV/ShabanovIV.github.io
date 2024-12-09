@@ -1,6 +1,4 @@
 .containerCart {
-  background-color: var(--myApp-background-color); // from theme
-  color: var(--myApp-text-color); // from theme
   display: flex;
   width: 100px;
   height: 25px;
@@ -11,8 +9,8 @@
 }
 
 .inputCart {
-  background-color: var(--myApp-background-color); // from theme
-  color: var(--myApp-text-color); // from theme
+  background-color: var(--myApp-background-color);
+  color: var(--myApp-text-color);
   width: 33.33333%;
   height: 100%;
   text-align: center;
@@ -28,8 +26,6 @@
 }
 
 .buttonCart {
-  background-color: var(--myApp-background-color); // from theme
-  color: var(--myApp-text-color); // from theme
   width: 33.33333%;
   height: 100%;
   border: none;
@@ -42,13 +38,7 @@
   padding: 0;
 }
 
-.buttonCart:hover {
-  background-color: var(--myApp-background-color-hover); // from theme
-}
-
 .buttonInCart {
-  background-color: var(--myApp-background-color); // from theme
-  color: var(--myApp-text-color); // from theme
   border: none;
   width: 100%;
   height: 100%;
@@ -60,8 +50,4 @@
   justify-content: center;
   transition: background-color 0.3s ease;
   border-radius: 4px;
-}
-
-.buttonInCart:hover {
-  background-color: var(--myApp-background-color-hover); // from theme
 }

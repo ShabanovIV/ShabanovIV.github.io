@@ -1,15 +1,18 @@
-import React, { createContext, useCallback, useContext, useState } from 'react';
-import styles from './ThemeProvider.module.scss';
-
-export const Themes = {
-  Dark: 'myApp-dark',
-  Light: 'myApp-light',
-} as const;
-
-export type Theme = (typeof Themes)[keyof typeof Themes];
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import {
+  applyTheme,
+  applyThemeVariables,
+  findTheme,
+  getThemeVariableValues,
+  injectGlobalThemes,
+  Theme,
+  Themes,
+  ThemeStyleValues,
+} from './ThemeUtils';
 
 interface ThemeContextProps {
   theme: Theme;
+  themeValues: ThemeStyleValues;
   toggleTheme: () => void;
 }
 
@@ -19,23 +22,31 @@ export interface ThemProviderProps {
   children: React.ReactNode;
 }
 
-const getCurrentThemeFromBody = (): Theme => {
-  if (document.body.classList.contains(styles[Themes.Dark])) return Themes.Dark;
-  if (document.body.classList.contains(styles[Themes.Light])) return Themes.Light;
-  return Themes.Dark;
-};
-
 export const ThemeProvider: React.FC<ThemProviderProps> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>(getCurrentThemeFromBody());
+  const [theme, setTheme] = useState<Theme>(findTheme(document.body));
+  const [themeValues, setThemeValues] = useState(getThemeVariableValues(theme));
 
-  const toggleTheme = useCallback(() => {
-    const newTheme = theme === Themes.Light ? Themes.Dark : Themes.Light;
-    setTheme(newTheme);
-    document.body.classList.toggle(styles[Themes.Dark], newTheme === Themes.Dark);
-    document.body.classList.toggle(styles[Themes.Light], newTheme === Themes.Light);
+  // Начальная инициализация
+  useEffect(() => {
+    injectGlobalThemes(); // Добавляет стили для тёмной и светлой темы как global
+    applyTheme(document.body, theme); // Применяет на body тему по умолчанию
+  }, []);
+
+  // При смене темы
+  useEffect(() => {
+    const values = getThemeVariableValues(theme);
+    applyThemeVariables(document.documentElement, values); // Значения переменных текущей темы применяются к root
+    setThemeValues(values); // Значения переменных текущей темы сохраняются для передачи в context
   }, [theme]);
 
-  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
+  // Функция смены темы
+  const toggleTheme = useCallback(() => {
+    const newTheme = theme === Themes.Light ? Themes.Dark : Themes.Light;
+    applyTheme(document.body, newTheme); // Применяет новую тему (берёт из global)
+    setTheme(newTheme);
+  }, [theme]);
+
+  return <ThemeContext.Provider value={{ theme, themeValues, toggleTheme }}>{children}</ThemeContext.Provider>;
 };
 
 export const useTheme = () => {

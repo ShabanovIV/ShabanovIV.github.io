@@ -2,9 +2,10 @@ import React from 'react';
 import styles from './CartItem.module.scss';
 import removeIconLight from '../Images/Remove_light.png';
 import removeIconDark from '../Images/Remove_dark.png';
-import { Themes, useTheme } from '../ThemeProvider/ThemeProvider';
+import { useTheme } from '../ThemeProvider/ThemeProvider';
 import { ImageButton, Sizes } from '../ui/ImageButton/ImageButton';
 import { rubFormatter } from '../formats';
+import { Themes } from '../ThemeProvider/ThemeUtils';
 
 interface CartItemProps {
   id: number;
