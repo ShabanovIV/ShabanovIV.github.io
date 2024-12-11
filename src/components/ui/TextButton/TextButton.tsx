@@ -6,7 +6,7 @@ export interface ITextButtonProps {
   maxTextLength: number;
   borderVisible: boolean;
   borderRounded: boolean;
-  handleClick: React.MouseEventHandler<HTMLButtonElement>;
+  handleClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export const TextButton: React.FC<ITextButtonProps> = ({

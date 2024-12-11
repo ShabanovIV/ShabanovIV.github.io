@@ -32,7 +32,7 @@ export const LangProvider: React.FC<LangProviderProps> = ({ children }) => {
   const getTranslate = (key: string) => {
     return t(key);
   };
-  const langs = Object.keys(i18n.options.resources);
+  const langs = i18n.options.resources ? Object.keys(i18n.options.resources) : [];
   return <LangContext.Provider value={{ langs, lang, toggleLang, getTranslate }}>{children}</LangContext.Provider>;
 };
 

@@ -29,12 +29,12 @@ export const ThemeProvider: React.FC<ThemProviderProps> = ({ children }) => {
   // Начальная инициализация
   useEffect(() => {
     injectGlobalThemes(); // Добавляет стили для тёмной и светлой темы как global
-    applyTheme(document.body, theme); // Применяет на body тему по умолчанию
   }, []);
 
   // При смене темы
   useEffect(() => {
     const values = getThemeVariableValues(theme);
+    applyTheme(document.body, theme); // Применяет на body тему по умолчанию
     applyThemeVariables(document.documentElement, values); // Значения переменных текущей темы применяются к root
     setThemeValues(values); // Значения переменных текущей темы сохраняются для передачи в context
   }, [theme]);

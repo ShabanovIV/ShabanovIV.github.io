@@ -4,11 +4,11 @@ import { IGenericListItem } from '../Abstract/IGenericListItem';
 import { rubFormatter } from '../formats';
 
 export class OperationSummaryProps implements IGenericListItem {
-  public id: string;
-  public amount: number;
-  public category: string;
-  public title: string;
-  public description: string;
+  public id = '';
+  public amount = 0;
+  public category = '';
+  public title = '';
+  public description = '';
 
   public get key() {
     return `OperationSummaryProps-${this.id}`;

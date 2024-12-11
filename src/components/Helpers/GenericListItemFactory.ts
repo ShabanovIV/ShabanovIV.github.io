@@ -32,15 +32,15 @@ export const createProductSummary = (): IGenericListItem => {
 // Операция
 export const createOperation = (): IGenericListItem => {
   const categoryInfo = getRandomOperationCategory();
-  const operation = new OperationProps();
-  operation.id = uuidv4();
-  operation.date = new Date();
-  operation.title = categoryInfo.title;
-  operation.category = categoryInfo.name;
-  operation.amount = Math.floor(Math.random() * 10000);
-  operation.description = categoryInfo.description;
 
-  return operation;
+  return new OperationProps(
+    uuidv4(),
+    Math.floor(Math.random() * 10000),
+    categoryInfo.name,
+    categoryInfo.title,
+    categoryInfo.description,
+    new Date()
+  );
 };
 
 // Сводная по операции

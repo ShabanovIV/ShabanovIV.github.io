@@ -4,6 +4,15 @@ import { IGenericListItem } from '../Abstract/IGenericListItem';
 import { rubFormatter } from '../formats';
 
 export class OperationProps implements IGenericListItem {
+  constructor(id: string, amount: number, category: string, title: string, description: string, date: Date) {
+    this.id = id;
+    this.amount = amount;
+    this.category = category;
+    this.title = title;
+    this.description = description;
+    this.date = date;
+  }
+
   public id: string;
   public amount: number;
   public category: string;

@@ -5,7 +5,7 @@ import { IGenericListItem } from '../Abstract/IGenericListItem';
 export interface IGenericListProps<TItem extends IGenericListItem> {
   isGrid?: boolean;
   items: TItem[];
-  lastItemRef?: React.MutableRefObject<HTMLLIElement>;
+  lastItemRef?: React.MutableRefObject<HTMLLIElement | null>;
 }
 
 export const GenericList = <TItem extends IGenericListItem>({
@@ -38,7 +38,7 @@ ListItem.displayName = 'ListItem';
 
 const MemoizedListItem = React.memo(ListItem);
 
-const setRefForLast = (length: number, index: number, lastItemRef: React.MutableRefObject<HTMLLIElement>) => {
+const setRefForLast = (length: number, index: number, lastItemRef?: React.MutableRefObject<HTMLLIElement | null>) => {
   return index === length - 1 ? lastItemRef : null;
 };
 

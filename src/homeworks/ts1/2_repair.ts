@@ -27,7 +27,7 @@ export const Kind = {
 export type Kinds = (typeof Kind)[keyof typeof Kind];
 
 export class Percent {
-  private _value: number;
+  private _value = 0;
 
   public get value(): number {
     return this._value;
@@ -48,12 +48,12 @@ export type Money = {
 export type DataValue = Money | Percent;
 
 export class Data {
-  private _kind: Kinds;
+  private _kind: Kinds = Kind.Money;
   public get kind(): Kinds {
     return this._kind;
   }
 
-  private _value: DataValue;
+  private _value: DataValue = { currency: '', amount: 0 };
   public get value(): DataValue {
     return this._value;
   }

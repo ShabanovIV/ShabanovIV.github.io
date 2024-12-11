@@ -4,9 +4,9 @@ import { TextButton } from '../ui/TextButton/TextButton';
 
 export interface AddToCartProps {
   count: number;
-  onIncrement: () => void;
-  onDecrement: () => void;
-  onCountChange: React.ChangeEventHandler<HTMLInputElement>;
+  onIncrement?: () => void;
+  onDecrement?: () => void;
+  onCountChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 const AddToCart: React.FC<AddToCartProps> = ({ count, onIncrement, onDecrement, onCountChange }) => {
