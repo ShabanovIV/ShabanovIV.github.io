@@ -71,7 +71,8 @@ module.exports = (_, args) => {
           type: 'asset',
         },
         {
-          test: /\.s[ac]ss$/i,
+          // CSS Modules
+          test: /\.module\.s[ac]ss$/i,
           use: [
             {
               loader: MiniCssExtractPlugin.loader,
@@ -84,6 +85,18 @@ module.exports = (_, args) => {
                 },
               },
             },
+            'sass-loader',
+          ],
+        },
+        {
+          // Глобальные SCSS файлы
+          test: /\.s[ac]ss$/i,
+          exclude: /\.module\.s[ac]ss$/i,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+            },
+            'css-loader',
             'sass-loader',
           ],
         },
