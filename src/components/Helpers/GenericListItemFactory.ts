@@ -19,12 +19,13 @@ export const createCollection = (count: number, handleCreate: () => IGenericList
 // Продукт
 export const createProductSummary = (): IGenericListItem => {
   const productInfo = getRandomProductInfo();
-  const productSummary = new ProductSummaryProps();
-  productSummary.id = uuidv4();
-  productSummary.price = getRandomInt(2000, 100000);
-  productSummary.title = productInfo.title;
-  productSummary.description = productInfo.description;
-  productSummary.imageUrl = productInfo.image;
+  const productSummary = new ProductSummaryProps(
+    uuidv4(),
+    getRandomInt(2000, 100000),
+    productInfo.image,
+    productInfo.title,
+    productInfo.description
+  );
 
   return productSummary;
 };

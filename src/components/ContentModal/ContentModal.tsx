@@ -7,10 +7,11 @@ import { TextButton } from '../ui/TextButton/TextButton';
 export interface ContentModalProps {
   visible: boolean;
   children: string;
-  handleClose: () => void;
+  showCloseButton?: boolean;
+  handleClose?: () => void;
 }
 
-export const ContentModal: React.FC<ContentModalProps> = ({ visible, children, handleClose }) => {
+export const ContentModal: React.FC<ContentModalProps> = ({ visible, children, showCloseButton, handleClose }) => {
   const { getTranslate } = useLang();
   if (!visible) return null;
 
@@ -18,13 +19,15 @@ export const ContentModal: React.FC<ContentModalProps> = ({ visible, children, h
     <div className={styles.modalOverlay}>
       <div className={styles.modalWindow}>
         <div className={styles.modalContent}>{children}</div>
-        <TextButton
-          text={getTranslate('contentModal.close')}
-          borderVisible={false}
-          borderRounded={true}
-          maxTextLength={Infinity}
-          handleClick={handleClose}
-        />
+        {showCloseButton && (
+          <TextButton
+            text={getTranslate('contentModal.close')}
+            borderVisible={false}
+            borderRounded={true}
+            maxTextLength={Infinity}
+            handleClick={handleClose}
+          />
+        )}
       </div>
     </div>,
     document.body

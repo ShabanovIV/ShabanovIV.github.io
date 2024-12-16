@@ -5,14 +5,22 @@ import { IGenericListItem } from '../Abstract/IGenericListItem';
 import { rubFormatter } from '../formats';
 
 export class ProductSummaryProps implements IGenericListItem {
-  id = '';
-  price = 0;
-  imageUrl = '';
-  title = '';
-  description = '';
+  id: string;
+  price: number;
+  imageUrl: string;
+  title: string;
+  description: string;
   onIncrement?: () => void;
   onDecrement?: () => void;
   onCountChange?: React.ChangeEventHandler<HTMLInputElement>;
+
+  constructor(id: string, price: number, imageUrl: string, title: string, description: string) {
+    this.id = id;
+    this.price = price;
+    this.imageUrl = imageUrl;
+    this.title = title;
+    this.description = description;
+  }
 
   public get key() {
     return this.id;

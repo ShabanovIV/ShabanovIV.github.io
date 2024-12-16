@@ -1,0 +1,40 @@
+.authPageWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  width: auto;
+  background-color: var(--myApp-background-color);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px var(--myApp-shadow-color);
+  background-color: var(--myApp-background-color);
+  color: var(--myApp-text-color);
+}
+
+.switchText {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.switchButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+  color: var(--myApp-text-color);
+  padding: 0;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
