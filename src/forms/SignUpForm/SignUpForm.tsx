@@ -54,7 +54,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ onSignUp }) => {
             className={styles.input}
             {...register('password', {
               required: 'Введите пароль',
-              minLength: { value: 6, message: 'Пароль должен содержать минимум 6 символов' },
+              minLength: { value: 3, message: 'Пароль должен содержать минимум 6 символов' },
             })}
           />
           {errors.password && <p className={styles.error}>{errors.password.message}</p>}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import AuthPage from '../pages/AuthPage';
+import AuthPage from '../pages/AuthPage/AuthPage';
 import styles from './App.module.scss';
 import { useLang } from 'src/components/LangProvider/LangProvider';
 import HeaderMenu from 'src/components/HeaderMenu/HeaderMenu';
@@ -47,21 +47,27 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className={styles.App}>
+    <>
       <HeaderMenu />
-      <p>{getTranslate('welcome.hello')}</p>
-      <p>{getTranslate('welcome.work')}</p>
-      <p>{getTranslate('welcome.tasks')}</p>
-      <p>Telegram: @ivshaban Email: react.dev.shabanov@mail.ru</p>
-      <button
-        onClick={() => {
-          localStorage.removeItem('token');
-          setIsAuthenticated(false);
-        }}
-      >
-        Выйти
-      </button>
-    </div>
+      {!isAuthenticated ? (
+        <AuthPage onAuthSuccess={handleAuthSuccess} />
+      ) : (
+        <div className={styles.App}>
+          <p>{getTranslate('welcome.hello')}</p>
+          <p>{getTranslate('welcome.work')}</p>
+          <p>{getTranslate('welcome.tasks')}</p>
+          <p>Telegram: @ivshaban Email: react.dev.shabanov@mail.ru</p>
+          <button
+            onClick={() => {
+              localStorage.removeItem('token');
+              setIsAuthenticated(false);
+            }}
+          >
+            Выйти
+          </button>
+        </div>
+      )}
+    </>
   );
 };
 
