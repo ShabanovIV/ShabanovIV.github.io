@@ -4,6 +4,7 @@ import AuthPage from '../pages/AuthPage/AuthPage';
 import styles from './App.module.scss';
 import { useLang } from 'src/components/LangProvider/LangProvider';
 import HeaderMenu from 'src/components/HeaderMenu/HeaderMenu';
+import { checkToken } from 'src/api/auth';
 
 axios.defaults.baseURL = 'https://users-store.onrender.com/api';
 
@@ -24,13 +25,17 @@ const App: React.FC = () => {
   const { getTranslate } = useLang();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      setIsAuthenticated(true); // Токен есть, авторизован
-    } else {
-      setIsAuthenticated(false); // Токена нет
-    }
+    var tokenVerify = async () => {
+      const token = localStorage.getItem('token');
+      const tokenVerifyResult = await checkToken(token);
+      if (tokenVerifyResult.Data) {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        setIsAuthenticated(true); // Токен есть, авторизован
+      } else {
+        setIsAuthenticated(false); // Токена нет
+      }
+    };
+    tokenVerify();
   }, []);
 
   const handleAuthSuccess = () => {
@@ -53,10 +58,6 @@ const App: React.FC = () => {
         <AuthPage onAuthSuccess={handleAuthSuccess} />
       ) : (
         <div className={styles.App}>
-          <p>{getTranslate('welcome.hello')}</p>
-          <p>{getTranslate('welcome.work')}</p>
-          <p>{getTranslate('welcome.tasks')}</p>
-          <p>Telegram: @ivshaban Email: react.dev.shabanov@mail.ru</p>
           <button
             onClick={() => {
               localStorage.removeItem('token');
