@@ -2,73 +2,54 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AuthPage from '../pages/AuthPage/AuthPage';
 import styles from './App.module.scss';
-import { useLang } from 'src/components/LangProvider/LangProvider';
-import HeaderMenu from 'src/components/HeaderMenu/HeaderMenu';
-import { checkToken } from 'src/api/auth';
+import HeaderMenu from '../components/HeaderMenu/HeaderMenu';
+import { getToken, removeToken, setToken, verifyToken } from '../api/auth';
+import { TextButton } from '../components/ui/TextButton/TextButton';
 
 axios.defaults.baseURL = 'https://users-store.onrender.com/api';
 
-// Глобальный перехватчик ответов для обработки 401
-axios.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      window.location.reload(); // Перезагружаем страницу, чтобы перенаправить на форму авторизации
-    }
-    return Promise.reject(error);
-  }
-);
-
 const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null); // null, пока не проверим токен
-  const { getTranslate } = useLang();
+  const [user, setUser] = useState<{ id: number; username: string } | null>(null);
 
   useEffect(() => {
-    var tokenVerify = async () => {
-      const token = localStorage.getItem('token');
-      const tokenVerifyResult = await checkToken(token);
-      if (tokenVerifyResult.Data) {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        setIsAuthenticated(true); // Токен есть, авторизован
+    const checkAuth = async () => {
+      const token = getToken();
+      const verifyResult = await verifyToken(token);
+      if (verifyResult.isValid) {
+        setUser(verifyResult.user);
       } else {
-        setIsAuthenticated(false); // Токена нет
+        removeToken();
+        setUser(null);
       }
     };
-    tokenVerify();
+    checkAuth();
   }, []);
 
-  const handleAuthSuccess = () => {
-    setIsAuthenticated(true); // Успешная авторизация
+  const onAuthSuccess = (user: { id: number; username: string }) => {
+    setUser(user);
   };
 
-  if (isAuthenticated === null) {
-    // Пока идет проверка токена
-    return <div className={styles.loading}>Загрузка...</div>;
-  }
-
-  if (!isAuthenticated) {
-    return <AuthPage onAuthSuccess={handleAuthSuccess} />;
-  }
-
   return (
-    <>
+    <div className={styles.App}>
       <HeaderMenu />
-      {!isAuthenticated ? (
-        <AuthPage onAuthSuccess={handleAuthSuccess} />
+      {!user ? (
+        <AuthPage setToken={setToken} onAuthSuccess={onAuthSuccess} />
       ) : (
-        <div className={styles.App}>
-          <button
-            onClick={() => {
-              localStorage.removeItem('token');
-              setIsAuthenticated(false);
+        <div className={styles.content}>
+          <p>Добро пожаловать, {user.username}!</p>
+          <TextButton
+            text={'Выйти'}
+            maxTextLength={Infinity}
+            borderVisible={true}
+            borderRounded={true}
+            handleClick={() => {
+              removeToken();
+              setUser(null);
             }}
-          >
-            Выйти
-          </button>
+          ></TextButton>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
