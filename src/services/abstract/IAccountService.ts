@@ -1,4 +1,4 @@
-export interface AccountService {
+export interface IAccountService {
   setDiscountForUserType(userType: 'Standard' | 'Premium' | 'Gold' | 'Free', discount: number): void;
 
   setDiscountForProductType(

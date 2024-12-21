@@ -1,10 +1,11 @@
-import { AccountService } from './abstract/IAccountService';
+import { IAccountService } from './abstract/IAccountService';
+import { AccountService } from './AccountService';
 
 describe('AccountService', () => {
-  let accountService: AccountService;
+  let accountService: IAccountService;
 
   beforeEach(() => {
-    accountService = {} as AccountService; // Пустая реализация, пока тесты не проходят
+    accountService = new AccountService();
   });
 
   describe('setDiscountForUserType', () => {
