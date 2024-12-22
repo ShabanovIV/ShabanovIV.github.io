@@ -3,58 +3,60 @@ import SignInForm from '../../forms/SignInForm/SignInForm';
 import SignUpForm from '../../forms/SignUpForm/SignUpForm';
 import styles from './AuthPage.module.scss';
 import { login, register } from '../../api/auth';
+import { ILoginResult } from 'src/api/models';
 
 interface AuthPageProps {
-  setToken: (token: string) => void;
-  onAuthSuccess: (user: { id: number; username: string }) => void;
+  onAuthFail: () => void;
+  onAuthSuccess: (result: ILoginResult) => void;
 }
 
-const AuthPage: React.FC<AuthPageProps> = ({ setToken, onAuthSuccess }) => {
-  const [isSignUp, setIsSignUp] = useState(false);
+const AuthPage: React.FC<AuthPageProps> = ({ onAuthFail, onAuthSuccess }) => {
+  const [isSignIn, setIsSignIn] = useState(true);
 
   const handleSignIn = async (credentials: { userName: string; password: string }) => {
-    const loginResult = await login({
+    const result = await login({
       username: credentials.userName,
       password: credentials.password,
     });
-    setToken(loginResult.token);
-    onAuthSuccess(loginResult.user);
+    if (result) {
+      onAuthSuccess(result);
+    } else {
+      onAuthFail();
+    }
   };
 
   const handleSignUp = async (data: { userName: string; password: string; confirmPassword: string }) => {
     if (data.password !== data.confirmPassword) {
-      alert('Пароли не совпадают');
-      return;
+      throw new Error('Не обработано сравнение паролей.');
     }
-
-    const message = await register({
+    const success = await register({
       username: data.userName,
       password: data.password,
     });
-    alert(message);
-    setIsSignUp(false);
+    console.log('success', success);
+    setIsSignIn(success);
   };
 
   return (
     <div className={styles.authPageWrapper}>
       <div className={styles.card}>
-        {isSignUp ? (
+        {isSignIn ? (
           <>
-            <SignUpForm onSignUp={handleSignUp} />
+            <SignInForm onSignIn={handleSignIn} />
             <p className={styles.switchText}>
-              Уже есть аккаунт?{' '}
-              <button className={styles.switchButton} onClick={() => setIsSignUp(false)}>
-                Войти
+              Нет аккаунта?{' '}
+              <button className={styles.switchButton} onClick={() => setIsSignIn(false)}>
+                Зарегистрироваться
               </button>
             </p>
           </>
         ) : (
           <>
-            <SignInForm onSignIn={handleSignIn} />
+            <SignUpForm onSignUp={handleSignUp} />
             <p className={styles.switchText}>
-              Нет аккаунта?{' '}
-              <button className={styles.switchButton} onClick={() => setIsSignUp(true)}>
-                Зарегистрироваться
+              Уже есть аккаунт?{' '}
+              <button className={styles.switchButton} onClick={() => setIsSignIn(true)}>
+                Войти
               </button>
             </p>
           </>

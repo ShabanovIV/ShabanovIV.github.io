@@ -1,7 +1,5 @@
 import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import axios, { AxiosError, isAxiosError } from 'axios';
-
-import styles from './ErrorProvider.module.scss';
 import { ContentModal } from '../ContentModal/ContentModal';
 
 export const ErrorTypes = {
@@ -13,28 +11,32 @@ export const ErrorTypes = {
 export type ErrorType = (typeof ErrorTypes)[keyof typeof ErrorTypes];
 
 interface ErrorContextProps {
-  type: ErrorType;
-  status: number | null;
-  message: string;
-  data?: any;
+  ready: boolean;
+  errorData?: ErrorData;
+  onRemoveError?: () => void;
 }
 
 interface ErrorResponse {
   message: string;
 }
 
-const ErrorContext = createContext<ErrorContextProps | undefined>(undefined);
+const ErrorContext = createContext<ErrorContextProps>({ ready: false });
+
+export interface ErrorData {
+  type: ErrorType;
+  message?: string;
+  status?: number | null;
+  data?: any;
+}
 
 export interface IErrorBoxProps {
   children: ReactNode;
 }
 
 export const ErrorProvider: React.FC<IErrorBoxProps> = ({ children }) => {
-  const [errorType, setErrorType] = useState<ErrorType>(ErrorTypes.None);
-  const [message, setMessage] = useState('');
-  const [status, setStatus] = useState<number | null>(null);
-  const [data, setData] = useState<any>();
+  const [errorData, setErrorData] = useState<ErrorData>({ type: ErrorTypes.None });
   const [isLoading, setIsLoading] = useState(false);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const requestInterceptor = axios.interceptors.request.use((config) => {
@@ -45,10 +47,7 @@ export const ErrorProvider: React.FC<IErrorBoxProps> = ({ children }) => {
     const responseInterceptor = axios.interceptors.response.use(
       (response) => {
         if (response.status < 400) {
-          setErrorType(ErrorTypes.None);
-          setMessage('');
-          setStatus(null);
-          setData(null);
+          setErrorData({ type: ErrorTypes.None });
           setIsLoading(false);
         }
         return response;
@@ -56,30 +55,47 @@ export const ErrorProvider: React.FC<IErrorBoxProps> = ({ children }) => {
       (error) => {
         if (isAxiosError(error)) {
           const axiosError = error as AxiosError;
+          // Ошибка валидации
           if (axiosError?.status && axiosError.status >= 400 && axiosError.status <= 499) {
-            setErrorType(ErrorTypes.Validate);
-            setMessage((axiosError.response?.data as ErrorResponse)?.message ?? axiosError.message);
-            setStatus(axiosError.status);
-            setData(axiosError.response?.data);
+            setErrorData({
+              type: ErrorTypes.None,
+              message: (axiosError.response?.data as ErrorResponse)?.message,
+              status: axiosError.status,
+              data: axiosError.response?.data,
+            });
+            console.log('axiosError 4xx', axiosError);
           } else if (axiosError?.status && axiosError?.status >= 500 && axiosError?.status <= 599) {
-            setErrorType(ErrorTypes.Server);
-            setMessage(axiosError.message);
-            setStatus(axiosError.status);
-            setData(axiosError.response?.data);
-            console.error(axiosError);
+            // Ошибка сервера
+            setErrorData({
+              type: ErrorTypes.Server,
+              status: axiosError.status,
+              message: axiosError.message,
+              data: axiosError.response?.data,
+            });
+            console.log('axiosError 5xx', axiosError);
+          } else if (!axiosError.response) {
+            // Ошибка сети
+            setErrorData({
+              type: ErrorTypes.Server,
+              message: 'Сервер не отвечает',
+            });
           }
         } else {
-          setErrorType(ErrorTypes.Server);
-          setMessage(error?.message ?? 'Неизвестная ошибка.');
-          setStatus(error?.response?.status);
-          setData(error?.response?.data);
-          console.error(error);
+          // Ошибка не от axios
+          setErrorData({
+            type: ErrorTypes.Server,
+            status: error?.response?.status,
+            message: error?.message ?? 'Неизвестная ошибка.',
+            data: error?.response?.data,
+          });
+          console.log('error', error);
         }
 
         setIsLoading(false);
-        return Promise.resolve(error.response);
+        return Promise.reject(error);
       }
     );
+    setReady(true);
 
     return () => {
       axios.interceptors.request.eject(requestInterceptor);
@@ -87,28 +103,14 @@ export const ErrorProvider: React.FC<IErrorBoxProps> = ({ children }) => {
     };
   }, []);
 
-  function onClose(): void {
-    setErrorType(ErrorTypes.None);
-    setMessage('');
-    setStatus(null);
-    setData(null);
+  function handleRemoveError(): void {
+    setErrorData({ type: ErrorTypes.None });
   }
 
   return (
-    <ErrorContext.Provider value={{ type: errorType, status: status, message: message, data: data }}>
+    <ErrorContext.Provider value={{ ready: ready, errorData: errorData, onRemoveError: handleRemoveError }}>
       {isLoading && <ContentModal visible={isLoading}>Выполнение запроса...</ContentModal>}
-      {errorType === ErrorTypes.Validate && data === null && (
-        <ContentModal visible={errorType === ErrorTypes.Validate && data === null} handleClose={onClose}>
-          {message}
-        </ContentModal>
-      )}
-      {(errorType === ErrorTypes.Validate || errorType === ErrorTypes.None) && children}
-      {errorType === ErrorTypes.Server && (
-        <div className={styles.serverError}>
-          <h1>{status}</h1>
-          <p>Па-па-пам, что-то пошло не так. Мы уже усердно решаем проблему!</p>
-        </div>
-      )}
+      {children}
     </ErrorContext.Provider>
   );
 };

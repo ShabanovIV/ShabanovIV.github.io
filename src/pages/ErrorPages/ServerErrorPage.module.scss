@@ -1,0 +1,9 @@
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100dvh;
+  width: 100dvh;
+  background-color: var(--myApp-background-color);
+  color: var(--myApp-text-color);
+}
