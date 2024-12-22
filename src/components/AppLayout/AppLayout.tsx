@@ -9,7 +9,11 @@ interface AppLayoutProps {
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   return (
     <div className={styles.appLayout}>
-      <HeaderMenu />
+      <HeaderMenu
+        isAuthenticated={false}
+        handleSignIn={() => console.log('handle signin')}
+        handleLogout={() => console.log('handle logout')}
+      />
       <main className={styles.mainContent}>{children}</main>
     </div>
   );

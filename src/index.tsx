@@ -6,6 +6,7 @@ import './components/LangProvider/translations';
 import { LangProvider } from './components/LangProvider/LangProvider';
 import { ThemeProvider } from './components/ThemeProvider/ThemeProvider';
 import { ErrorProvider } from './components/ErrorProvider/ErrorProvider';
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
@@ -13,7 +14,9 @@ root.render(
     <LangProvider>
       <ThemeProvider>
         <ErrorProvider>
-          <App />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </ErrorProvider>
       </ThemeProvider>
     </LangProvider>

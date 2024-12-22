@@ -2,6 +2,7 @@ import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import App from './App';
 import { ErrorProvider } from '../components/ErrorProvider/ErrorProvider';
+import { BrowserRouter } from 'react-router-dom';
 
 const meta: Meta<typeof App> = {
   title: 'Main/App',
@@ -14,7 +15,9 @@ export const AppStory: StoryObj<typeof App> = {
   render: () => {
     return (
       <ErrorProvider>
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </ErrorProvider>
     );
   },

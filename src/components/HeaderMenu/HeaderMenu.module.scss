@@ -3,24 +3,50 @@
   color: var(--myApp-text-color); // from theme
   position: sticky;
   top: 0;
-  height: 40px;
+  height: 60px; // Увеличена высота для более "воздушного" дизайна
   width: 100%;
-  padding: 0px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  padding: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Более легкая тень
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 1000; // Для перекрытия других элементов
 }
 
-.headerContent {
-  background-color: var(--myApp-background-color); // from theme
-  color: var(--myApp-text-color); // from theme
+.headerLeft {
   display: flex;
   align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  margin-right: 10px; // Отступ между Logo и меню
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 5px; // Расстояние между ссылками
+}
+
+.menuItem {
+  text-decoration: none; // Убираем подчеркивание
+  color: var(--myApp-text-color); // Из темы
+  font-size: 16px; // Чуть крупнее для читаемости
+  font-weight: 500;
+  padding: 5px 10px; // Добавлены отступы внутри
+  border-radius: 5px; // Закругленные края
+  transition: background-color 0.3s, color 0.3s;
+
+  &:hover {
+    background-color: var(--myApp-hover-background-color); // Цвет при наведении
+    color: var(--myApp-hover-text-color); // Цвет текста при наведении
+  }
 }
 
 .headerRight {
   display: flex;
-  align-items: right;
-  margin-left: 5px;
+  align-items: center;
+  gap: 10px; // Отступы между кнопками
 }
