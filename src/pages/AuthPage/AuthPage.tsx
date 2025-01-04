@@ -33,7 +33,6 @@ const AuthPage: React.FC<AuthPageProps> = ({ onAuthFail, onAuthSuccess }) => {
       username: data.userName,
       password: data.password,
     });
-    console.log('success', success);
     setIsSignIn(success);
   };
 

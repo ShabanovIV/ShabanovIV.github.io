@@ -6,6 +6,8 @@ export const ErrorTypes = {
   None: 'none',
   Validate: 'validate',
   Server: 'server',
+  NotFound: 'notFound',
+  AccessDenied: 'accessDenied',
 } as const;
 
 export type ErrorType = (typeof ErrorTypes)[keyof typeof ErrorTypes];
@@ -55,15 +57,29 @@ export const ErrorProvider: React.FC<IErrorBoxProps> = ({ children }) => {
       (error) => {
         if (isAxiosError(error)) {
           const axiosError = error as AxiosError;
-          // Ошибка валидации
-          if (axiosError?.status && axiosError.status >= 400 && axiosError.status <= 499) {
+
+          if (axiosError?.status && axiosError.status === 403) {
+            setErrorData({
+              type: ErrorTypes.AccessDenied,
+              message: (axiosError.response?.data as ErrorResponse)?.message,
+              status: axiosError.status,
+              data: axiosError.response?.data,
+            });
+          } else if (axiosError?.status && axiosError.status === 404) {
+            setErrorData({
+              type: ErrorTypes.NotFound,
+              message: (axiosError.response?.data as ErrorResponse)?.message,
+              status: axiosError.status,
+              data: axiosError.response?.data,
+            });
+          } else if (axiosError?.status && axiosError.status >= 400 && axiosError.status <= 499) {
+            // Ошибка валидации
             setErrorData({
               type: ErrorTypes.None,
               message: (axiosError.response?.data as ErrorResponse)?.message,
               status: axiosError.status,
               data: axiosError.response?.data,
             });
-            console.log('axiosError 4xx', axiosError);
           } else if (axiosError?.status && axiosError?.status >= 500 && axiosError?.status <= 599) {
             // Ошибка сервера
             setErrorData({
@@ -72,7 +88,6 @@ export const ErrorProvider: React.FC<IErrorBoxProps> = ({ children }) => {
               message: axiosError.message,
               data: axiosError.response?.data,
             });
-            console.log('axiosError 5xx', axiosError);
           } else if (!axiosError.response) {
             // Ошибка сети
             setErrorData({
@@ -88,7 +103,6 @@ export const ErrorProvider: React.FC<IErrorBoxProps> = ({ children }) => {
             message: error?.message ?? 'Неизвестная ошибка.',
             data: error?.response?.data,
           });
-          console.log('error', error);
         }
 
         setIsLoading(false);

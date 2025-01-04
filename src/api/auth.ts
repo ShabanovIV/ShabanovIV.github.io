@@ -1,4 +1,4 @@
-import axios, { isAxiosError } from 'axios';
+import axios from 'axios';
 import { ILoginResult, IVerifyResult, LoginModel, RegisterModel } from './models';
 import { tokenKeyName } from './defaults';
 
@@ -7,9 +7,7 @@ export const login = async (model: LoginModel): Promise<ILoginResult | null> => 
     const response = await axios.post('/login', model);
     return response.data;
   } catch (error) {
-    if (isAxiosError(error) && error.response?.status && error.response?.status >= 400 && error.response?.status <= 499)
-      return null;
-    else throw error;
+    return null;
   }
 };
 
@@ -18,9 +16,7 @@ export const register = async (model: RegisterModel): Promise<boolean> => {
     const response = await axios.post('/register', model);
     return response?.status === 201;
   } catch (error) {
-    if (isAxiosError(error) && error.response?.status && error.response?.status >= 400 && error.response?.status <= 499)
-      return false;
-    else throw error;
+    return false;
   }
 };
 
@@ -37,9 +33,7 @@ export const verifyToken = async (token: string | null): Promise<IVerifyResult> 
       user: response.data?.user,
     };
   } catch (error) {
-    if (isAxiosError(error) && error.response?.status && error.response?.status >= 400 && error.response?.status <= 499)
-      return { isValid: false, user: null };
-    else throw error;
+    return { isValid: false, user: null };
   }
 };
 

@@ -8,10 +8,11 @@ import { TextButton } from '../ui/TextButton/TextButton';
 
 export interface IHeaderMenuProps {
   isAuthenticated: boolean;
+  handleSignIn?: () => void;
   handleLogout: () => void;
 }
 
-const HeaderMenu: React.FC<IHeaderMenuProps> = ({ isAuthenticated, handleLogout }) => {
+const HeaderMenu: React.FC<IHeaderMenuProps> = ({ isAuthenticated, handleSignIn, handleLogout }) => {
   const { theme } = useTheme();
 
   return (
@@ -36,8 +37,8 @@ const HeaderMenu: React.FC<IHeaderMenuProps> = ({ isAuthenticated, handleLogout 
           borderRounded={false}
           borderVisible={false}
           maxTextLength={Infinity}
-          text={!isAuthenticated ? 'Вход/Регистрация' : 'Выйти'}
-          handleClick={!isAuthenticated ? undefined : handleLogout}
+          text={!isAuthenticated ? 'Вход' : 'Выйти'}
+          handleClick={!isAuthenticated ? handleSignIn : handleLogout}
         />
         <ThemeToggleButton />
       </div>

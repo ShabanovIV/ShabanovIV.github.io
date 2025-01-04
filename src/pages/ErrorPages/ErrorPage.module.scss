@@ -1,0 +1,33 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100dvh;
+  width: 100%;
+  background-color: var(--myApp-background-color);
+  color: var(--myApp-text-color);
+  text-align: center;
+  padding: 20px;
+  z-index: 10000;
+}
+
+.content h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: var(--myApp-text-color);
+  text-shadow: 1px 1px 2px var(--myApp-shadow-color);
+}
+
+.content p {
+  font-size: 1.5rem;
+  color: var(--myApp-text-color); // Вторичный текстовый цвет
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+.content button {
+  margin-top: 30px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+}
