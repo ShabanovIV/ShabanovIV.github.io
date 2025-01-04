@@ -13,11 +13,7 @@ export const HeaderMenuStory: StoryObj<typeof HeaderMenu> = {
   render: () => (
     <>
       <div>
-        <HeaderMenu
-          isAuthenticated={false}
-          handleSignIn={() => console.log('handle signin')}
-          handleLogout={() => console.log('handle logout')}
-        />
+        <HeaderMenu isAuthenticated={false} handleLogout={() => console.log('handle logout')} />
         <div>
           <p>
             Добавляем немного контента, чтобы можно было проверить прилипание верхнего меню при выполнении прокрутки

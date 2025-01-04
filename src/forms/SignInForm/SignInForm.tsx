@@ -19,13 +19,15 @@ const SignInForm: React.FC<SignInFormProps> = ({ onSignIn }) => {
     formState: { errors },
   } = useForm<SignInFormInputs>();
 
-  const { status, message } = useError();
+  const { errorData } = useError();
 
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={handleSubmit(onSignIn)}>
         <h1 className={styles.title}>Авторизация</h1>
-        {status === 401 && <p className={styles.apiError}>{message}</p>}
+        {errorData?.status && (errorData?.status >= 401 || errorData?.status <= 499) && (
+          <p className={styles.apiError}>{errorData?.message}</p>
+        )}
         <div className={styles.field}>
           <label htmlFor="userName" className={styles.label}>
             Имя пользователя

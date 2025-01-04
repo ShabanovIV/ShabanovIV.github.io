@@ -1,33 +1,46 @@
-import axios from 'axios';
+import axios, { isAxiosError } from 'axios';
 import { ILoginResult, IVerifyResult, LoginModel, RegisterModel } from './models';
 import { tokenKeyName } from './defaults';
 
-export const login = async (model: LoginModel): Promise<ILoginResult> => {
-  const response = await axios.post('/login', model);
-  return response.data;
+export const login = async (model: LoginModel): Promise<ILoginResult | null> => {
+  try {
+    const response = await axios.post('/login', model);
+    return response.data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response?.status && error.response?.status >= 400 && error.response?.status <= 499)
+      return null;
+    else throw error;
+  }
 };
 
-export const register = async (model: RegisterModel): Promise<string> => {
-  const response = await axios.post('/register', model);
-  return response.data.message;
+export const register = async (model: RegisterModel): Promise<boolean> => {
+  try {
+    const response = await axios.post('/register', model);
+    return response?.status === 201;
+  } catch (error) {
+    if (isAxiosError(error) && error.response?.status && error.response?.status >= 400 && error.response?.status <= 499)
+      return false;
+    else throw error;
+  }
 };
 
 export const verifyToken = async (token: string | null): Promise<IVerifyResult> => {
   if (!token) {
-    return {
-      isValid: false,
-      user: null,
-    };
+    return { isValid: false, user: null };
   }
-  const response = await axios.get('/verify-token', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return {
-    isValid: response.status === 200,
-    user: response.data?.user,
-  };
+  try {
+    const response = await axios.get<IVerifyResult>('/verify-token', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return {
+      isValid: response.status === 200,
+      user: response.data?.user,
+    };
+  } catch (error) {
+    if (isAxiosError(error) && error.response?.status && error.response?.status >= 400 && error.response?.status <= 499)
+      return { isValid: false, user: null };
+    else throw error;
+  }
 };
 
 export const setToken = (token: string): void => {
