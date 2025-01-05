@@ -6,7 +6,7 @@ import './components/LangProvider/translations';
 import { LangProvider } from './components/LangProvider/LangProvider';
 import { ThemeProvider } from './components/ThemeProvider/ThemeProvider';
 import { ErrorProvider } from './components/ErrorProvider/ErrorProvider';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './stores/store';
 
@@ -17,9 +17,9 @@ root.render(
       <ThemeProvider>
         <Provider store={store}>
           <ErrorProvider>
-            <BrowserRouter>
+            <HashRouter>
               <App />
-            </BrowserRouter>
+            </HashRouter>
           </ErrorProvider>
         </Provider>
       </ThemeProvider>
