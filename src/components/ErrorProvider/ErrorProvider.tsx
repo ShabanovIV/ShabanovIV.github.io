@@ -35,6 +35,19 @@ export interface IErrorBoxProps {
   children: ReactNode;
 }
 
+const setError = (
+  type: ErrorType,
+  axiosError: AxiosError,
+  setErrorData: React.Dispatch<React.SetStateAction<ErrorData>>
+) => {
+  setErrorData({
+    type: type,
+    message: (axiosError.response?.data as ErrorResponse)?.message,
+    status: axiosError.status,
+    data: axiosError.response?.data,
+  });
+};
+
 export const ErrorProvider: React.FC<IErrorBoxProps> = ({ children }) => {
   const [errorData, setErrorData] = useState<ErrorData>({ type: ErrorTypes.None });
   const [isLoading, setIsLoading] = useState(false);
@@ -59,35 +72,15 @@ export const ErrorProvider: React.FC<IErrorBoxProps> = ({ children }) => {
           const axiosError = error as AxiosError;
 
           if (axiosError?.status && axiosError.status === 403) {
-            setErrorData({
-              type: ErrorTypes.AccessDenied,
-              message: (axiosError.response?.data as ErrorResponse)?.message,
-              status: axiosError.status,
-              data: axiosError.response?.data,
-            });
+            setError(ErrorTypes.AccessDenied, axiosError, setErrorData);
           } else if (axiosError?.status && axiosError.status === 404) {
-            setErrorData({
-              type: ErrorTypes.NotFound,
-              message: (axiosError.response?.data as ErrorResponse)?.message,
-              status: axiosError.status,
-              data: axiosError.response?.data,
-            });
+            setError(ErrorTypes.NotFound, axiosError, setErrorData);
           } else if (axiosError?.status && axiosError.status >= 400 && axiosError.status <= 499) {
             // Ошибка валидации
-            setErrorData({
-              type: ErrorTypes.None,
-              message: (axiosError.response?.data as ErrorResponse)?.message,
-              status: axiosError.status,
-              data: axiosError.response?.data,
-            });
+            setError(ErrorTypes.Validate, axiosError, setErrorData);
           } else if (axiosError?.status && axiosError?.status >= 500 && axiosError?.status <= 599) {
             // Ошибка сервера
-            setErrorData({
-              type: ErrorTypes.Server,
-              status: axiosError.status,
-              message: axiosError.message,
-              data: axiosError.response?.data,
-            });
+            setError(ErrorTypes.Server, axiosError, setErrorData);
           } else if (!axiosError.response) {
             // Ошибка сети
             setErrorData({

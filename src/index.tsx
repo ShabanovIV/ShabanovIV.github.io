@@ -7,17 +7,21 @@ import { LangProvider } from './components/LangProvider/LangProvider';
 import { ThemeProvider } from './components/ThemeProvider/ThemeProvider';
 import { ErrorProvider } from './components/ErrorProvider/ErrorProvider';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './stores/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
     <LangProvider>
       <ThemeProvider>
-        <ErrorProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </ErrorProvider>
+        <Provider store={store}>
+          <ErrorProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </ErrorProvider>
+        </Provider>
       </ThemeProvider>
     </LangProvider>
   </React.StrictMode>

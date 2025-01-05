@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import styles from './ErrorPage.module.scss';
 import { ErrorType, ErrorTypes, useError } from '../../components/ErrorProvider/ErrorProvider';
 import { TextButton } from '../../components/ui/TextButton/TextButton';
+import { useAppSelector } from '../../stores/hooks';
+import { useNavigate } from 'react-router-dom';
 
 // Сообщения для известных типов ошибок
 const errorMessages: { [key in ErrorType]: { errorTitle: string; errorMessage: string } } = {
@@ -30,6 +32,8 @@ const errorMessages: { [key in ErrorType]: { errorTitle: string; errorMessage: s
 
 export const ErrorPage: React.FC = () => {
   const error = useError();
+  const app = useAppSelector((state) => state.app);
+  const navigate = useNavigate();
 
   // Определяем тип ошибки или используем 'none' как значение по умолчанию
   const errorType: ErrorType = error.errorData?.type ?? ErrorTypes.None;
@@ -43,7 +47,10 @@ export const ErrorPage: React.FC = () => {
         borderVisible={false}
         maxTextLength={Infinity}
         text="Закрыть"
-        handleClick={error.onRemoveError}
+        handleClick={() => {
+          if (error.onRemoveError) error.onRemoveError();
+          navigate(app.currentPath || '/');
+        }}
       />
     </div>,
     document.body

@@ -1,61 +1,53 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import AuthPage from '../pages/AuthPage/AuthPage';
-import HeaderMenu from '../components/HeaderMenu/HeaderMenu';
-import { getToken, removeToken, setToken, verifyToken } from '../api/auth';
-import ProfilePage from '../pages/ProfilePage/ProfilePage';
 import PrivateRoute from '../routes/PrivateRoute';
-import OperationsPage from '../pages/OperationsPage/OperationsPage';
+import { verifyToken } from '../api/auth';
 import { ILoginResult } from '../api/models';
-import { ErrorTypes, useError } from '../components/ErrorProvider/ErrorProvider';
+import HeaderMenu from '../components/HeaderMenu/HeaderMenu';
+import { ErrorType, ErrorTypes, useError } from '../components/ErrorProvider/ErrorProvider';
+import AuthPage from '../pages/AuthPage/AuthPage';
+import ProfilePage from '../pages/ProfilePage/ProfilePage';
+import OperationsPage from '../pages/OperationsPage/OperationsPage';
 import { ErrorPage } from '../pages/ErrorPages/ErrorPage';
+import { getCurrentPath, setCurrentPath, setInitialized } from '../stores/appSlice';
+import { getToken, login, logout } from '../stores/authSlice';
+import { useAppDispatch, useAppSelector } from '../stores/hooks';
 
 axios.defaults.baseURL = 'https://users-store.onrender.com/api';
-const currentPathKey = 'currentPath';
+
+const isErrorPage = (errorType: ErrorType | undefined) => {
+  return errorType === ErrorTypes.Server || errorType === ErrorTypes.AccessDenied || errorType === ErrorTypes.NotFound;
+};
 
 const App: React.FC = () => {
-  const [user, setUser] = useState<{ id: number; username: string } | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const { ready, errorData, onRemoveError } = useError();
+  const { ready: axiosReady, errorData } = useError();
+  const dispatch = useAppDispatch();
+  const auth = useAppSelector((state) => state.auth);
+  const app = useAppSelector((state) => state.app);
 
-  // Обработчик успешной авторизации
-  const handleAuthSuccess = (result: ILoginResult) => {
-    setToken(result.token);
-    setUser(result.user);
-    navigate('/welcome');
-  };
+  // Определяем app.Initialized флаг
+  useEffect(() => {
+    dispatch(setInitialized(axiosReady));
+  }, [axiosReady, dispatch]);
 
-  const handleSignIn = () => {
-    if (onRemoveError) {
-      onRemoveError();
+  // Сохраняем текущий путь, кроме страницы ошибки (в localStorage и в store)
+  useEffect(() => {
+    if (app.currentPath !== location.pathname && location.pathname !== '/error') {
+      dispatch(setCurrentPath(location.pathname));
     }
-    navigate('/');
-  };
+  }, [location.pathname, app.currentPath, dispatch]);
 
-  // Обработчик сброса авторизации
-  const handleResetAuth = useCallback(() => {
-    removeToken();
-    setUser(null);
-    if (
-      errorData?.type === ErrorTypes.Server ||
-      errorData?.type === ErrorTypes.NotFound ||
-      errorData?.type === ErrorTypes.AccessDenied
-    ) {
-      navigate('/error');
-    } else {
-      navigate('/');
-    }
-  }, [errorData, navigate]);
+  // Переходим на текущий путь
+  useEffect(() => {
+    navigate(getCurrentPath());
+  }, [navigate]);
 
   // Если ошибка 403, 404 или 5xx, то переходим на страницу ошибки
   useEffect(() => {
-    if (
-      errorData?.type === ErrorTypes.Server ||
-      errorData?.type === ErrorTypes.NotFound ||
-      errorData?.type === ErrorTypes.AccessDenied
-    ) {
+    if (isErrorPage(errorData?.type)) {
       navigate('/error');
     }
   }, [errorData, navigate]);
@@ -64,50 +56,56 @@ const App: React.FC = () => {
   // (после того как axios добавил централизованную обработку ошибок)
   useEffect(() => {
     const checkAuth = async () => {
-      if (!ready) return;
-      const token = getToken();
+      if (!app.initialized) return;
+      const token = getToken(); // Получаем токен из localStorage (чтобы не добавлять в зависимости useEffect auth.token)
       const verifyResult = await verifyToken(token);
       if (verifyResult.isValid) {
-        setUser(verifyResult.user);
+        dispatch(login({ token: token, profile: verifyResult.user }));
       } else {
-        removeToken();
-        setUser(null);
+        dispatch(logout());
       }
     };
     checkAuth();
-  }, [ready]);
-
-  // Сохраняем текущий путь в localStorage
-  useEffect(() => {
-    localStorage.setItem(currentPathKey, location.pathname);
-  }, [location.pathname]);
-
-  // Переходим на последний путь после обновления страницы
-  useEffect(() => {
-    const savedPath = localStorage.getItem(currentPathKey);
-    if (savedPath && savedPath !== location.pathname) {
-      navigate(savedPath);
-    }
-  }, [location.pathname, navigate]);
+  }, [app.initialized, dispatch]);
 
   return (
     <div>
-      {errorData?.type !== ErrorTypes.Server &&
-        errorData?.type !== ErrorTypes.AccessDenied &&
-        errorData?.type !== ErrorTypes.NotFound && (
-          <HeaderMenu isAuthenticated={user != null} handleSignIn={handleSignIn} handleLogout={handleResetAuth} />
-        )}
+      {!isErrorPage(errorData?.type) && (
+        <HeaderMenu
+          isAuthenticated={auth.profile != null}
+          handleSignIn={() => {
+            navigate('/');
+          }}
+          handleLogout={() => {
+            dispatch(logout());
+          }}
+        />
+      )}
       <Routes>
         {/* Маршрут ошибки 5xx 403 404 */}
         <Route path="/error" element={<ErrorPage />} />
         {/* Маршрут авторизации */}
-        <Route path="/" element={<AuthPage onAuthFail={handleResetAuth} onAuthSuccess={handleAuthSuccess} />} />
+        <Route
+          path="/"
+          element={
+            <AuthPage
+              onAuthFail={() => {
+                dispatch(logout());
+                navigate('/');
+              }}
+              onAuthSuccess={(result: ILoginResult) => {
+                dispatch(login({ token: result.token, profile: result.user }));
+                navigate('/welcome');
+              }}
+            />
+          }
+        />
         {/* Защищенный маршрут для приветствия */}
         <Route
           path="/welcome"
           element={
-            <PrivateRoute isAuthenticated={user != null}>
-              <div>Добро пожаловать, {user?.username}!</div>
+            <PrivateRoute isAuthenticated={auth.profile != null}>
+              <div>Добро пожаловать, {auth.profile?.username}!</div>
             </PrivateRoute>
           }
         />
@@ -115,7 +113,7 @@ const App: React.FC = () => {
         <Route
           path="/profile"
           element={
-            <PrivateRoute isAuthenticated={user != null}>
+            <PrivateRoute isAuthenticated={auth.profile != null}>
               <ProfilePage />
             </PrivateRoute>
           }
@@ -123,7 +121,7 @@ const App: React.FC = () => {
         <Route
           path="/operations"
           element={
-            <PrivateRoute isAuthenticated={user != null}>
+            <PrivateRoute isAuthenticated={auth.profile != null}>
               <OperationsPage />
             </PrivateRoute>
           }
