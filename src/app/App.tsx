@@ -84,6 +84,7 @@ const App: React.FC = () => {
           }}
           handleLogout={() => {
             dispatch(logout());
+            navigate('/');
           }}
         />
       )}
