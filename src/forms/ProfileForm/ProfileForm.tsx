@@ -1,54 +1,101 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './ProfileForm.module.scss';
-import { useAppSelector } from 'src/stores/hooks';
+import { useAppDispatch, useAppSelector } from '../../stores/hooks';
+import { useUpdateProfileMutation, useChangePasswordMutation, useGetProfileQuery } from '../../api/profileApi';
+import type { ServerErrors } from '../../api/models';
+import { ContentModal } from '../../components/ContentModal/ContentModal';
+import { updProfile } from '../../stores/authSlice';
 
-interface ProfileFormInputs {
-  email: string;
+interface ChangePasswordInputs {
   currentPassword: string;
   newPassword: string;
   confirmNewPassword: string;
 }
 
-interface ProfileFormProps {
-  onSubmit: (data: ProfileFormInputs) => void;
-}
-
-const ProfileForm: React.FC<ProfileFormProps> = ({ onSubmit }) => {
+const ProfileForm: React.FC = () => {
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<ProfileFormInputs>();
+    setError,
+  } = useForm<ChangePasswordInputs>();
   const auth = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const { refetch: getProfile } = useGetProfileQuery();
+  const [updateProfile, { isLoading: isUpdatingName }] = useUpdateProfileMutation();
+  const [changePassword, { isLoading: isChangingPassword, isError, error }] = useChangePasswordMutation();
+  const [errorMessages, setErrorMessages] = useState<string | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState<string>('');
+  const [name, setName] = useState(auth.profile?.name || '');
 
   const newPassword = watch('newPassword');
 
+  const handleNameSubmit = async () => {
+    setErrorMessages(null);
+    try {
+      const profile = await updateProfile({ name }).unwrap();
+      dispatch(updProfile(profile));
+      setModalMessage('Имя успешно обновлено!');
+      setModalVisible(true);
+    } catch (e) {
+      const serverError = e as { data: ServerErrors };
+      setErrorMessages(serverError.data.errors.map((err) => err.message).join('\n'));
+    }
+  };
+
+  const onSubmit = async (data: ChangePasswordInputs) => {
+    setErrorMessages(null);
+    if (data.newPassword !== data.confirmNewPassword) {
+      setError('confirmNewPassword', { type: 'manual', message: 'Пароли не совпадают' });
+      return;
+    }
+    try {
+      await changePassword({ password: data.currentPassword, newPassword: data.newPassword }).unwrap();
+      const profileRes = await getProfile();
+      dispatch(updProfile(profileRes?.data ?? null)); // На всякий случай, хоть и меняется только пароль
+      setModalMessage('Пароль успешно изменён!');
+      setModalVisible(true);
+    } catch (e) {
+      const serverError = e as { data: ServerErrors };
+      setErrorMessages(serverError.data.errors.map((err) => err.message).join('\n'));
+    }
+  };
+
   return (
     <div className={styles.container}>
+      <ContentModal visible={modalVisible} showCloseButton={true} handleClose={() => setModalVisible(false)}>
+        {modalMessage}
+      </ContentModal>
+
       <form autoComplete="off" className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <h1 className={styles.title}>Редактирование профиля</h1>
+
+        {/* Name */}
+        <div className={styles.field}>
+          <label htmlFor="name" className={styles.label}>
+            Имя
+          </label>
+          <input
+            id="name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className={styles.input}
+          />
+          <button type="button" className={styles.button} onClick={handleNameSubmit} disabled={isUpdatingName}>
+            {isUpdatingName ? 'Сохранение...' : 'Сохранить имя'}
+          </button>
+        </div>
 
         {/* Email */}
         <div className={styles.field}>
           <label htmlFor="email" className={styles.label}>
             Почта
           </label>
-          <input
-            id="email"
-            type="email"
-            defaultValue={auth.profile?.email}
-            className={styles.input}
-            {...register('email', {
-              required: 'Введите почту',
-              pattern: {
-                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                message: 'Введите корректный адрес почты',
-              },
-            })}
-          />
-          {errors.email && <p className={styles.error}>{errors.email.message}</p>}
+          <input id="email" type="email" defaultValue={auth.profile?.email} className={styles.input} disabled />
         </div>
 
         {/* Current Password */}
@@ -59,8 +106,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onSubmit }) => {
           <input
             id="currentPassword"
             type="password"
-            defaultValue={''}
-            autoComplete="new-password123"
+            autoComplete="new-password"
             className={styles.input}
             {...register('currentPassword', { required: 'Введите текущий пароль' })}
           />
@@ -75,8 +121,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onSubmit }) => {
           <input
             id="newPassword"
             type="password"
-            defaultValue={''}
-            autoComplete="new-password123"
+            autoComplete="new-password"
             className={styles.input}
             {...register('newPassword', {
               required: 'Введите новый пароль',
@@ -94,7 +139,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onSubmit }) => {
           <input
             id="confirmNewPassword"
             type="password"
-            defaultValue={''}
             autoComplete="new-password"
             className={styles.input}
             {...register('confirmNewPassword', {
@@ -105,9 +149,12 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onSubmit }) => {
           {errors.confirmNewPassword && <p className={styles.error}>{errors.confirmNewPassword.message}</p>}
         </div>
 
-        <button type="submit" className={styles.button}>
-          Сохранить изменения
+        <button type="submit" className={styles.button} disabled={isChangingPassword}>
+          {isChangingPassword ? 'Сохранение...' : 'Изменить пароль'}
         </button>
+
+        {errorMessages && <p className={styles.error}>{errorMessages}</p>}
+        {isError && !error && <p className={styles.error}>Неизвестная ошибка при изменении пароля</p>}
       </form>
     </div>
   );

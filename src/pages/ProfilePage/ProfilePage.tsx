@@ -5,7 +5,7 @@ import ProfileForm from '../../forms/ProfileForm/ProfileForm';
 export const ProfilePage = () => {
   return (
     <div className={styles.container}>
-      <ProfileForm onSubmit={() => console.log('profile submit')} />
+      <ProfileForm />
     </div>
   );
 };

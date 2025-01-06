@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { IProfileResult } from 'src/api/models';
 
 const tokenKey = 'token';
 const profileKey = 'profile';
@@ -19,13 +20,7 @@ export const getToken = (): string | null => {
   return token || null;
 };
 
-export const setProfile = (
-  profile: {
-    _id: string;
-    email: string;
-    signUpDate: string;
-  } | null
-): void => {
+export const setProfile = (profile: IProfileResult | null): void => {
   localStorage.setItem(profileKey, profile ? JSON.stringify(profile) : '');
 };
 
@@ -33,22 +28,14 @@ export const removeProfile = (): void => {
   localStorage.removeItem(profileKey);
 };
 
-export const getProfile = (): {
-  _id: string;
-  email: string;
-  signUpDate: string;
-} | null => {
+export const getProfile = (): IProfileResult | null => {
   const profile = localStorage.getItem(profileKey);
   return profile ? JSON.parse(profile) : null;
 };
 
 interface AuthState {
   token: string | null;
-  profile: {
-    _id: string;
-    email: string;
-    signUpDate: string;
-  } | null;
+  profile: IProfileResult | null;
 }
 
 const initialState: AuthState = {
@@ -72,8 +59,12 @@ const authSlice = createSlice({
       state.token = null;
       state.profile = null;
     },
+    updProfile: (state, action: PayloadAction<IProfileResult | null>) => {
+      setProfile(action.payload);
+      state.profile = action.payload;
+    },
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, updProfile } = authSlice.actions;
 export default authSlice.reducer;

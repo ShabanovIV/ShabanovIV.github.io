@@ -11,6 +11,6 @@ export default meta;
 
 export const ProfileFormStory: StoryObj<typeof ProfileForm> = {
   render: () => {
-    return <ProfileForm onSubmit={() => console.log('submit!')}></ProfileForm>;
+    return <ProfileForm />;
   },
 };
