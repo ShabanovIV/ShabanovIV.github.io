@@ -33,6 +33,18 @@ const ProfileForm: React.FC = () => {
 
   const newPassword = watch('newPassword');
 
+  const updateError = (e: unknown) => {
+    const serverError = e as { data: ServerErrors };
+    const errors = serverError?.data?.errors;
+
+    if (errors) {
+      setErrorMessages(errors.map((err) => err.message).join('\n'));
+    } else {
+      const unkEr = e as { error: string };
+      setErrorMessages(unkEr?.error ?? 'Неизвестная ошибка.');
+    }
+  };
+
   const handleNameSubmit = async () => {
     setErrorMessages(null);
     try {
@@ -41,8 +53,7 @@ const ProfileForm: React.FC = () => {
       setModalMessage('Имя успешно обновлено!');
       setModalVisible(true);
     } catch (e) {
-      const serverError = e as { data: ServerErrors };
-      setErrorMessages(serverError.data.errors.map((err) => err.message).join('\n'));
+      updateError(e);
     }
   };
 
@@ -59,8 +70,7 @@ const ProfileForm: React.FC = () => {
       setModalMessage('Пароль успешно изменён!');
       setModalVisible(true);
     } catch (e) {
-      const serverError = e as { data: ServerErrors };
-      setErrorMessages(serverError.data.errors.map((err) => err.message).join('\n'));
+      updateError(e);
     }
   };
 
