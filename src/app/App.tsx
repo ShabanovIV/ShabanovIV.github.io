@@ -14,7 +14,7 @@ import { getCurrentPath, setCurrentPath, setInitialized } from '../stores/appSli
 import { getProfile, getToken, login, logout } from '../stores/authSlice';
 import { useAppDispatch, useAppSelector } from '../stores/hooks';
 
-axios.defaults.baseURL = 'http://19429ba06ff2.vps.myjino.ru/api';
+axios.defaults.baseURL = 'https://19429ba06ff2.vps.myjino.ru/api';
 
 const isErrorPage = (errorType: ErrorType | undefined) => {
   return errorType === ErrorTypes.Server || errorType === ErrorTypes.AccessDenied || errorType === ErrorTypes.NotFound;

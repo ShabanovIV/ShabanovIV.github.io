@@ -5,7 +5,7 @@ import { getToken } from '../stores/authSlice';
 export const profileApi = createApi({
   reducerPath: 'profileApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://19429ba06ff2.vps.myjino.ru/api',
+    baseUrl: 'https://19429ba06ff2.vps.myjino.ru/api',
     prepareHeaders: (headers) => {
       const token = getToken();
       if (token) {
