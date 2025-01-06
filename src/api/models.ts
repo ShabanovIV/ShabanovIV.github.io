@@ -1,25 +1,28 @@
 export interface LoginModel {
-  username: string;
+  email: string;
   password: string;
 }
 
 export interface RegisterModel {
-  username: string;
+  email: string;
   password: string;
+  commandId: string;
 }
 
 export interface IVerifyResult {
   isValid: boolean;
-  user: {
-    id: number;
-    username: string;
+  profile: {
+    _id: string;
+    email: string;
+    signUpDate: string;
   } | null;
 }
 
 export interface ILoginResult {
   token: string;
-  user: {
-    id: number;
-    username: string;
+  profile: {
+    _id: string;
+    email: string;
+    signUpDate: string;
   };
 }

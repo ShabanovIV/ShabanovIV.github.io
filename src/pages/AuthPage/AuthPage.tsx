@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import SignInForm from '../../forms/SignInForm/SignInForm';
 import SignUpForm from '../../forms/SignUpForm/SignUpForm';
 import styles from './AuthPage.module.scss';
 import { login, register } from '../../api/auth';
-import { ILoginResult } from 'src/api/models';
+import { ILoginResult } from '../../api/models';
+import { ErrorTypes, useError } from '../../components/ErrorProvider/ErrorProvider';
 
 interface AuthPageProps {
   onAuthFail: () => void;
@@ -11,11 +13,20 @@ interface AuthPageProps {
 }
 
 const AuthPage: React.FC<AuthPageProps> = ({ onAuthFail, onAuthSuccess }) => {
+  const { errorData, onRemoveError } = useError();
   const [isSignIn, setIsSignIn] = useState(true);
+  const [prevIsSignIn, setPrevIsSignIn] = useState(isSignIn);
 
-  const handleSignIn = async (credentials: { userName: string; password: string }) => {
+  useEffect(() => {
+    if (onRemoveError && errorData?.type === ErrorTypes.Validate && prevIsSignIn !== isSignIn) {
+      onRemoveError(); // Очищаем ошибку только при смене формы
+    }
+    setPrevIsSignIn(isSignIn); // Обновляем предыдущее состояние формы
+  }, [isSignIn, prevIsSignIn, errorData, onRemoveError]);
+
+  const handleSignIn = async (credentials: { email: string; password: string }) => {
     const result = await login({
-      username: credentials.userName,
+      email: credentials.email,
       password: credentials.password,
     });
     if (result) {
@@ -25,13 +36,14 @@ const AuthPage: React.FC<AuthPageProps> = ({ onAuthFail, onAuthSuccess }) => {
     }
   };
 
-  const handleSignUp = async (data: { userName: string; password: string; confirmPassword: string }) => {
+  const handleSignUp = async (data: { email: string; password: string; confirmPassword: string }) => {
     if (data.password !== data.confirmPassword) {
       throw new Error('Не обработано сравнение паролей.');
     }
     const success = await register({
-      username: data.userName,
+      email: data.email,
       password: data.password,
+      commandId: uuidv4(),
     });
     setIsSignIn(success);
   };

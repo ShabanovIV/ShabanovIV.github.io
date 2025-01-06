@@ -4,7 +4,7 @@ import styles from './SignInForm.module.scss';
 import { useError } from '../../components/ErrorProvider/ErrorProvider';
 
 interface SignInFormInputs {
-  userName: string;
+  email: string;
   password: string;
 }
 
@@ -29,22 +29,11 @@ const SignInForm: React.FC<SignInFormProps> = ({ onSignIn }) => {
           <p className={styles.apiError}>{errorData?.message}</p>
         )}
         <div className={styles.field}>
-          <label htmlFor="userName" className={styles.label}>
-            Имя пользователя
+          <label htmlFor="email" className={styles.label}>
+            Email
           </label>
-          <input
-            id="userName"
-            type="text"
-            className={styles.input}
-            {...register('userName', {
-              required: 'Введите имя пользователя',
-              pattern: {
-                value: /^[a-zA-Z0-9]+$/,
-                message: 'Имя пользователя может содержать только буквы и цифры',
-              },
-            })}
-          />
-          {errors.userName && <p className={styles.error}>{errors.userName.message}</p>}
+          <input id="email" type="text" className={styles.input} {...register('email')} />
+          {errors.email && <p className={styles.error}>{errors.email.message}</p>}
         </div>
         <div className={styles.field}>
           <label htmlFor="password" className={styles.label}>

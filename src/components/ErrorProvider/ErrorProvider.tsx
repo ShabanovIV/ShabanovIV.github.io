@@ -22,6 +22,12 @@ interface ErrorResponse {
   message: string;
 }
 
+interface ErrorsResponse {
+  errors: {
+    message: string;
+  }[];
+}
+
 const ErrorContext = createContext<ErrorContextProps>({ ready: false });
 
 export interface ErrorData {
@@ -31,7 +37,7 @@ export interface ErrorData {
   data?: any;
 }
 
-export interface IErrorBoxProps {
+export interface IErrorProviderProps {
   children: ReactNode;
 }
 
@@ -40,15 +46,23 @@ const setError = (
   axiosError: AxiosError,
   setErrorData: React.Dispatch<React.SetStateAction<ErrorData>>
 ) => {
+  let message = (axiosError.response?.data as ErrorResponse)?.message;
+
+  if (!message) {
+    const errors = (axiosError.response?.data as ErrorsResponse)?.errors;
+    if (errors && errors.length > 0) {
+      message = errors.map((e) => e.message).join('\n');
+    }
+  }
   setErrorData({
     type: type,
-    message: (axiosError.response?.data as ErrorResponse)?.message,
+    message: message ?? axiosError.message,
     status: axiosError.status,
     data: axiosError.response?.data,
   });
 };
 
-export const ErrorProvider: React.FC<IErrorBoxProps> = ({ children }) => {
+export const ErrorProvider: React.FC<IErrorProviderProps> = ({ children }) => {
   const [errorData, setErrorData] = useState<ErrorData>({ type: ErrorTypes.None });
   const [isLoading, setIsLoading] = useState(false);
   const [ready, setReady] = useState(false);

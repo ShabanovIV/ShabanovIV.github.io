@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const tokenKey = 'token';
+const profileKey = 'profile';
 
 export const setToken = (token: string | null): void => {
   localStorage.setItem(tokenKey, token ?? '');
@@ -18,9 +19,36 @@ export const getToken = (): string | null => {
   return token || null;
 };
 
+export const setProfile = (
+  profile: {
+    _id: string;
+    email: string;
+    signUpDate: string;
+  } | null
+): void => {
+  localStorage.setItem(profileKey, profile ? JSON.stringify(profile) : '');
+};
+
+export const removeProfile = (): void => {
+  localStorage.removeItem(profileKey);
+};
+
+export const getProfile = (): {
+  _id: string;
+  email: string;
+  signUpDate: string;
+} | null => {
+  const profile = localStorage.getItem(profileKey);
+  return profile ? JSON.parse(profile) : null;
+};
+
 interface AuthState {
   token: string | null;
-  profile: { id: number; username: string } | null;
+  profile: {
+    _id: string;
+    email: string;
+    signUpDate: string;
+  } | null;
 }
 
 const initialState: AuthState = {
@@ -34,14 +62,13 @@ const authSlice = createSlice({
   reducers: {
     login: (state, action: PayloadAction<AuthState>) => {
       setToken(action.payload.token); // Сохраняем токен в localStorage
+      setProfile(action.payload.profile);
       state.token = action.payload.token;
-      state.profile = action.payload.profile && {
-        username: action.payload.profile.username,
-        id: action.payload.profile.id,
-      };
+      state.profile = action.payload.profile;
     },
     logout: (state) => {
       removeToken(); // Удаляем токен из localStorage
+      removeProfile();
       state.token = null;
       state.profile = null;
     },

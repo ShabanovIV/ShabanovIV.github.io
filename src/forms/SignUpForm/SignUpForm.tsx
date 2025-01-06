@@ -4,7 +4,7 @@ import styles from './SignUpForm.module.scss';
 import { useError } from '../../components/ErrorProvider/ErrorProvider';
 
 interface SignUpFormInputs {
-  userName: string;
+  email: string;
   password: string;
   confirmPassword: string;
 }
@@ -31,36 +31,17 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ onSignUp }) => {
           <p className={styles.apiError}>{errorData?.message}</p>
         )}
         <div className={styles.field}>
-          <label htmlFor="userName" className={styles.label}>
-            Имя пользователя
+          <label htmlFor="email" className={styles.label}>
+            email
           </label>
-          <input
-            id="userName"
-            type="text"
-            className={styles.input}
-            {...register('userName', {
-              required: 'Введите имя пользователя',
-              pattern: {
-                value: /^[a-zA-Z0-9]+$/,
-                message: 'Имя пользователя может содержать только буквы и цифры',
-              },
-            })}
-          />
-          {errors.userName && <p className={styles.error}>{errors.userName.message}</p>}
+          <input id="email" type="text" className={styles.input} {...register('email')} />
+          {errors.email && <p className={styles.error}>{errors.email.message}</p>}
         </div>
         <div className={styles.field}>
           <label htmlFor="password" className={styles.label}>
             Пароль
           </label>
-          <input
-            id="password"
-            type="password"
-            className={styles.input}
-            {...register('password', {
-              required: 'Введите пароль',
-              minLength: { value: 6, message: 'Пароль должен содержать минимум 6 символов' },
-            })}
-          />
+          <input id="password" type="password" className={styles.input} {...register('password')} />
           {errors.password && <p className={styles.error}>{errors.password.message}</p>}
         </div>
         <div className={styles.field}>

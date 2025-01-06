@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './ProfileForm.module.scss';
+import { useAppSelector } from 'src/stores/hooks';
 
 interface ProfileFormInputs {
   email: string;
@@ -20,12 +21,13 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onSubmit }) => {
     watch,
     formState: { errors },
   } = useForm<ProfileFormInputs>();
+  const auth = useAppSelector((state) => state.auth);
 
   const newPassword = watch('newPassword');
 
   return (
     <div className={styles.container}>
-      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+      <form autoComplete="off" className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <h1 className={styles.title}>Редактирование профиля</h1>
 
         {/* Email */}
@@ -36,6 +38,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onSubmit }) => {
           <input
             id="email"
             type="email"
+            defaultValue={auth.profile?.email}
             className={styles.input}
             {...register('email', {
               required: 'Введите почту',
@@ -56,6 +59,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onSubmit }) => {
           <input
             id="currentPassword"
             type="password"
+            defaultValue={''}
+            autoComplete="new-password123"
             className={styles.input}
             {...register('currentPassword', { required: 'Введите текущий пароль' })}
           />
@@ -70,6 +75,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onSubmit }) => {
           <input
             id="newPassword"
             type="password"
+            defaultValue={''}
+            autoComplete="new-password123"
             className={styles.input}
             {...register('newPassword', {
               required: 'Введите новый пароль',
@@ -87,6 +94,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ onSubmit }) => {
           <input
             id="confirmNewPassword"
             type="password"
+            defaultValue={''}
+            autoComplete="new-password"
             className={styles.input}
             {...register('confirmNewPassword', {
               required: 'Подтвердите новый пароль',
