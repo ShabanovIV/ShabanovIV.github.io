@@ -6,6 +6,7 @@ export interface ITextButtonProps {
   maxTextLength: number;
   borderVisible: boolean;
   borderRounded: boolean;
+  style?: string;
   handleClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -14,6 +15,7 @@ export const TextButton: React.FC<ITextButtonProps> = ({
   maxTextLength,
   borderVisible,
   borderRounded,
+  style,
   handleClick,
 }) => {
   const truncatedText =
@@ -23,7 +25,7 @@ export const TextButton: React.FC<ITextButtonProps> = ({
   }`;
 
   return (
-    <button title={text} onClick={handleClick} className={`${styles.button} ${classNames}`}>
+    <button title={text} onClick={handleClick} className={`${styles.button} ${classNames} ${style}`}>
       {truncatedText}
     </button>
   );

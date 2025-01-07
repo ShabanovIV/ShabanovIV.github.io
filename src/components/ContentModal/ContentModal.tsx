@@ -25,6 +25,7 @@ export const ContentModal: React.FC<ContentModalProps> = ({ visible, children, s
             borderVisible={false}
             borderRounded={true}
             maxTextLength={Infinity}
+            style={styles.modalCloseButton}
             handleClick={handleClose}
           />
         )}
