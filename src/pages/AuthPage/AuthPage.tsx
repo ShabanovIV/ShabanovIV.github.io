@@ -6,6 +6,7 @@ import styles from './AuthPage.module.scss';
 import { login, register } from '../../api/auth';
 import { ILoginResult } from '../../api/models';
 import { ErrorTypes, useError } from '../../components/ErrorProvider/ErrorProvider';
+import { constants } from '../../api/common/constants';
 
 interface AuthPageProps {
   onAuthFail: () => void;
@@ -43,7 +44,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onAuthFail, onAuthSuccess }) => {
     const success = await register({
       email: data.email,
       password: data.password,
-      commandId: uuidv4(),
+      commandId: constants.commandID,
     });
     setIsSignIn(success);
   };
