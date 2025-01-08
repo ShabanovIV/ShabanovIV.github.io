@@ -1,6 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { IProfileResult, UpdateProfileBody, ChangePasswordBody, ChangePasswordResult } from './models';
-import { getToken } from '../stores/authSlice';
+import { IUpdateProfileBody } from './models/IUpdateProfileBody';
+import { IChangePasswordResult } from './models/IChangePasswordResult';
+import { IChangePasswordBody } from './models/IChangePasswordBody';
+import { IProfileResult } from './models/IProfileResult';
+import { getToken } from '../common/localStorageHelper';
 
 export const profileApi = createApi({
   reducerPath: 'profileApi',
@@ -21,7 +24,7 @@ export const profileApi = createApi({
     }),
 
     // Обновление профиля
-    updateProfile: builder.mutation<IProfileResult, UpdateProfileBody>({
+    updateProfile: builder.mutation<IProfileResult, IUpdateProfileBody>({
       query: (body) => ({
         url: '/profile',
         method: 'PATCH',
@@ -30,7 +33,7 @@ export const profileApi = createApi({
     }),
 
     // Смена пароля
-    changePassword: builder.mutation<ChangePasswordResult, ChangePasswordBody>({
+    changePassword: builder.mutation<IChangePasswordResult, IChangePasswordBody>({
       query: (body) => ({
         url: '/profile/change-password',
         method: 'POST',

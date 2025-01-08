@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from './ProfileForm.module.scss';
 import { useAppDispatch, useAppSelector } from '../../stores/hooks';
-import { useUpdateProfileMutation, useChangePasswordMutation, useGetProfileQuery } from '../../api/profileApi';
-import type { ServerErrors } from '../../api/models';
+import { useUpdateProfileMutation, useChangePasswordMutation, useGetProfileQuery } from '../../api/profile/profileApi';
 import { ContentModal } from '../../components/ContentModal/ContentModal';
 import { updProfile } from '../../stores/authSlice';
+import { ServerErrors } from '../../api/common/errors';
 
 interface ChangePasswordInputs {
   currentPassword: string;

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import SignInForm from '../../forms/SignInForm/SignInForm';
 import SignUpForm from '../../forms/SignUpForm/SignUpForm';
 import styles from './AuthPage.module.scss';
-import { login, register } from '../../api/auth';
-import { ILoginResult } from '../../api/models';
+import { login, register } from '../../api/authApi';
 import { ErrorTypes, useError } from '../../components/ErrorProvider/ErrorProvider';
 import { constants } from '../../api/common/constants';
+import { ILoginResult } from '../../api/authModels';
 
 interface AuthPageProps {
   onAuthFail: () => void;

@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import PrivateRoute from '../routes/PrivateRoute';
-import { verifyToken } from '../api/auth';
-import { ILoginResult } from '../api/models';
+import { verifyToken } from '../api/authApi';
 import HeaderMenu from '../components/HeaderMenu/HeaderMenu';
 import { ErrorType, ErrorTypes, useError } from '../components/ErrorProvider/ErrorProvider';
 import AuthPage from '../pages/AuthPage/AuthPage';
@@ -11,8 +10,10 @@ import ProfilePage from '../pages/ProfilePage/ProfilePage';
 import OperationsPage from '../pages/OperationsPage/OperationsPage';
 import { ErrorPage } from '../pages/ErrorPages/ErrorPage';
 import { getCurrentPath, setCurrentPath, setInitialized } from '../stores/appSlice';
-import { getProfile, getToken, login, logout } from '../stores/authSlice';
 import { useAppDispatch, useAppSelector } from '../stores/hooks';
+import { ILoginResult } from '../api/authModels';
+import { getToken, getProfile } from '../api/common/localStorageHelper';
+import { login, logout } from '../stores/authSlice';
 
 axios.defaults.baseURL = 'https://19429ba06ff2.vps.myjino.ru/api';
 

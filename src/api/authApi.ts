@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { ILoginResult, IVerifyResult, ILoginBody, IRegisterBody, IProfileResult } from './models';
+import { ILoginResult, IVerifyResult, ILoginBody, IRegisterBody } from './authModels';
+import { IProfileResult } from './profile/models/IProfileResult';
 
 export const login = async (model: ILoginBody): Promise<ILoginResult | null> => {
   try {
@@ -29,18 +30,4 @@ export const register = async (model: IRegisterBody): Promise<boolean> => {
 // В учебном API нет реализации проверки токена, поэтому проверяем только наличие токена
 export const verifyToken = async (token: string | null, profile: IProfileResult | null): Promise<IVerifyResult> => {
   return { isValid: !!token, profile: profile };
-  // if (!token) {
-  //   return { isValid: false, user: null };
-  // }
-  // try {
-  //   const response = await axios.get<IVerifyResult>('/verify-token', {
-  //     headers: { Authorization: `Bearer ${token}` },
-  //   });
-  //   return {
-  //     isValid: response.status === 200,
-  //     user: response.data?.user,
-  //   };
-  // } catch (error) {
-  //   return { isValid: false, user: null }; // Ошибка записана в useError
-  // }
 };
