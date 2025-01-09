@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './ContentModal.module.scss';
 import { useLang } from '../LangProvider/LangProvider';
@@ -6,7 +6,7 @@ import { TextButton } from '../ui/TextButton/TextButton';
 
 export interface ContentModalProps {
   visible: boolean;
-  children: string;
+  children: ReactNode;
   showCloseButton?: boolean;
   handleClose?: () => void;
 }

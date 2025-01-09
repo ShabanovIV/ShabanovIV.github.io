@@ -1,19 +1,20 @@
 import React, { useEffect } from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import PrivateRoute from '../routes/PrivateRoute';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { verifyToken } from '../api/authApi';
-import HeaderMenu from '../components/HeaderMenu/HeaderMenu';
 import { ErrorType, ErrorTypes, useError } from '../components/ErrorProvider/ErrorProvider';
-import AuthPage from '../pages/AuthPage/AuthPage';
-import ProfilePage from '../pages/ProfilePage/ProfilePage';
-import OperationsPage from '../pages/OperationsPage/OperationsPage';
 import { ErrorPage } from '../pages/ErrorPages/ErrorPage';
 import { getCurrentPath, setCurrentPath, setInitialized } from '../stores/appSlice';
 import { useAppDispatch, useAppSelector } from '../stores/hooks';
 import { ILoginResult } from '../api/authModels';
 import { getToken, getProfile } from '../api/common/localStorageHelper';
 import { login, logout } from '../stores/authSlice';
+import PrivateRoute from '../routes/PrivateRoute';
+import HeaderMenu from '../components/HeaderMenu/HeaderMenu';
+import AuthPage from '../pages/AuthPage/AuthPage';
+import ProfilePage from '../pages/ProfilePage/ProfilePage';
+import OperationsPage from '../pages/OperationsPage/OperationsPage';
+import CategoriesPage from '../pages/CategoriesPage/CategoriesPage';
 
 axios.defaults.baseURL = 'https://19429ba06ff2.vps.myjino.ru/api';
 
@@ -132,6 +133,14 @@ const App: React.FC = () => {
           element={
             <PrivateRoute isAuthenticated={auth.profile != null}>
               <OperationsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/categories"
+          element={
+            <PrivateRoute isAuthenticated={auth.profile != null}>
+              <CategoriesPage />
             </PrivateRoute>
           }
         />

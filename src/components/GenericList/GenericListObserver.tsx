@@ -1,42 +1,63 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { IGenericListItem } from '../Abstract/IGenericListItem';
 import GenericList from './GenericList';
 
 export interface IGenericListObserverProps {
   isGrid?: boolean;
-  fetchItems: () => IGenericListItem[];
+  items: IGenericListItem[];
+  onLastItem: () => void;
 }
 
-const GenericListObserver: React.FC<IGenericListObserverProps> = ({ isGrid, fetchItems }) => {
-  const [items, setItems] = useState(fetchItems());
+const GenericListObserver: React.FC<IGenericListObserverProps> = ({ isGrid, items, onLastItem }) => {
+  const [lastItemKey, setLastItemKey] = useState('');
+  const prevLastItemKey = useRef('');
   const lastItemRef = useRef<HTMLLIElement | null>(null);
+  const hasCalledOnLastItem = useRef(false);
 
   const handleIntersection = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       const entry = entries[0];
-      if (entry?.isIntersecting) {
-        setItems((prevItems) => [...prevItems, ...fetchItems()]);
+      if (entry?.isIntersecting && !hasCalledOnLastItem.current) {
+        hasCalledOnLastItem.current = true;
+        onLastItem();
       }
     },
-    [fetchItems]
+    [onLastItem]
   );
 
   useEffect(() => {
-    const observer = new IntersectionObserver(handleIntersection, { threshold: 0.1 });
+    if (lastItemKey === prevLastItemKey.current) {
+      return;
+    } else {
+      prevLastItemKey.current = lastItemKey;
+    }
 
-    const currentLastItem = lastItemRef.current;
+    const observer = new IntersectionObserver(handleIntersection, { threshold: 1 });
+
+    const currentLastItem = lastItemRef.current; // Сохраняем текущее значение рефа
     if (currentLastItem) {
       observer.observe(currentLastItem);
     }
 
     return () => {
       if (currentLastItem) {
-        observer.unobserve(currentLastItem);
+        observer.unobserve(currentLastItem); // Используем сохранённое значение
       }
     };
-  }, [handleIntersection, items]);
+  }, [handleIntersection, lastItemKey]);
 
-  return <GenericList isGrid={isGrid} items={items} lastItemRef={lastItemRef}></GenericList>;
+  useEffect(() => {
+    hasCalledOnLastItem.current = false; // Сбрасываем флаг при изменении списка
+  }, [lastItemKey]);
+
+  return (
+    <GenericList
+      isGrid={isGrid}
+      items={items}
+      lastItemRef={lastItemRef}
+      onLastItemChanged={setLastItemKey}
+    ></GenericList>
+  );
 };
 
 export default GenericListObserver;

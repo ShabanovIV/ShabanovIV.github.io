@@ -3,19 +3,19 @@ import styles from './TextButton.module.scss';
 
 export interface ITextButtonProps {
   text: string;
-  maxTextLength: number;
-  borderVisible: boolean;
-  borderRounded: boolean;
+  maxTextLength?: number;
+  borderVisible?: boolean;
+  borderRounded?: boolean;
   style?: string;
   handleClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export const TextButton: React.FC<ITextButtonProps> = ({
-  text,
-  maxTextLength,
-  borderVisible,
-  borderRounded,
+  maxTextLength = Infinity,
+  borderVisible = false,
+  borderRounded = true,
   style,
+  text,
   handleClick,
 }) => {
   const truncatedText =

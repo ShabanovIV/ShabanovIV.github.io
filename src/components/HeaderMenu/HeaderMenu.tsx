@@ -22,21 +22,24 @@ const HeaderMenu: React.FC<IHeaderMenuProps> = ({ isAuthenticated, handleSignIn,
           <Logo />
         </div>
         <div className={styles.menu}>
+          <Link className={styles.menuItem} to="/categories">
+            Категории
+          </Link>
           <Link className={styles.menuItem} to="/operations">
             Операции
           </Link>
-          {isAuthenticated && (
-            <Link className={styles.menuItem} to="/profile">
-              Профиль
-            </Link>
-          )}
         </div>
       </div>
       <div className={styles.headerRight}>
+        {isAuthenticated && (
+          <Link className={styles.menuItem} to="/profile">
+            Профиль
+          </Link>
+        )}
+        <span></span>
         <TextButton
           borderRounded={false}
-          borderVisible={false}
-          maxTextLength={Infinity}
+          borderVisible={true}
           text={!isAuthenticated ? 'Вход' : 'Выйти'}
           handleClick={!isAuthenticated ? handleSignIn : handleLogout}
         />
