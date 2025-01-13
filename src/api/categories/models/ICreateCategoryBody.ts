@@ -1,4 +1,4 @@
-export interface IAddCategoryBody {
+export interface ICreateCategoryBody {
   name: string;
   photo?: string;
 }

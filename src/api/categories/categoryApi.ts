@@ -1,19 +1,20 @@
 // token не добавляется в заголовок запроса, для загрузки всех категорий (для проверки списка категорий)
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ICategory, ICategoryResult } from './models/ICategoryResult';
-// import { getToken } from '../common/localStorageHelper';
+import { getToken } from '../common/localStorageHelper';
 import { IFiltersArg } from './models/IFiltersArg';
-import { IAddCategoryBody } from './models/ICreateCategoryBody';
+import { ICreateCategoryBody } from './models/ICreateCategoryBody';
+import { IUpdateCategoryBody } from './models/IUpdateCategoryBody';
 
 export const categoryApi = createApi({
   reducerPath: 'categoryApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://19429ba06ff2.vps.myjino.ru/api',
     prepareHeaders: (headers) => {
-      // const token = getToken();
-      // if (token) {
-      //   headers.set('Authorization', `Bearer ${token}`);
-      // }
+      const token = getToken();
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
       return headers;
     },
   }),
@@ -31,18 +32,25 @@ export const categoryApi = createApi({
         return {
           url: '/categories',
           method: 'GET',
-          params, // Передаём параметры здесь
+          params,
         };
       },
     }),
-    addCategory: builder.mutation<ICategory, IAddCategoryBody>({
+    createCategory: builder.mutation<ICategory, ICreateCategoryBody>({
       query: (body) => ({
         url: '/categories',
         method: 'POST',
         body,
       }),
     }),
+    updateCategory: builder.mutation<ICategory, IUpdateCategoryBody>({
+      query: ({ id, name, photo }) => ({
+        url: `/categories/${id}`,
+        method: 'PATCH',
+        body: { name, photo },
+      }),
+    }),
   }),
 });
 
-export const { useGetCategoriesQuery, useAddCategoryMutation } = categoryApi;
+export const { useGetCategoriesQuery, useCreateCategoryMutation, useUpdateCategoryMutation } = categoryApi;

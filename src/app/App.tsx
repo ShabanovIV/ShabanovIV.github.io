@@ -103,7 +103,6 @@ const App: React.FC = () => {
                 navigate('/');
               }}
               onAuthSuccess={(result: ILoginResult) => {
-                console.log(result.profile);
                 dispatch(login({ token: result.token, profile: result.profile }));
                 navigate('/welcome');
               }}
