@@ -35,7 +35,7 @@ const CategoriesPage: React.FC = () => {
     if (data && data.data.length > 0) {
       setCategories((prev) => [
         ...prev,
-        ...data.data.map((category) => new CategoryProps(category.id, category.name, '', category.photo)),
+        ...data.data.map((category) => new CategoryProps(category.id, category.name, category.photo)),
       ]);
     } else if (data && data.data.length < PAGE_SIZE) {
       setHasMore(false);

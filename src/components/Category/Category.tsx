@@ -3,16 +3,14 @@ import styles from './Category.module.scss';
 import { IGenericListItem } from '../Abstract/IGenericListItem';
 
 export class CategoryProps implements IGenericListItem {
-  constructor(id: string, name: string, description: string, photo?: string) {
+  constructor(id: string, name: string, photo?: string) {
     this.id = id;
     this.name = name;
-    this.description = description;
     this.photo = photo;
   }
 
   public id: string;
   public name: string;
-  public description: string;
   public photo?: string;
 
   public get key(): string {
@@ -24,12 +22,11 @@ export class CategoryProps implements IGenericListItem {
   }
 }
 
-const Category: React.FC<CategoryProps> = ({ name, description, photo }) => {
+const Category: React.FC<CategoryProps> = ({ name, photo }) => {
   return (
     <div className={styles.category}>
       {photo && <img src={photo} alt={name} />}
       <h3>{name}</h3>
-      <p>{description}</p>
     </div>
   );
 };
