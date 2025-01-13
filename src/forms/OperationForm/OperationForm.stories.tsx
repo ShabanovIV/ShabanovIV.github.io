@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import OperationForm from './OperationForm';
 import { OperationProps } from '../../components/Operation/Operation';
-import operationCategories from '../../components/Helpers/operationCategories.json';
+import operationCategories from '../../components/Helpers/Operations.json';
 
 const meta: Meta<typeof OperationForm> = {
   title: 'forms/OperationForm',
@@ -47,7 +47,7 @@ const RenderAddOperation = () => {
     <div>
       <OperationForm categories={categoryNames} onSubmit={handleSubmit} />
       <h3>Добавленная операция:</h3>
-      {newOperation ? newOperation.createComponent() : <p>Пока ничего не добавлено</p>}
+      {newOperation ? newOperation.render() : <p>Пока ничего не добавлено</p>}
     </div>
   );
 };
@@ -89,9 +89,9 @@ const RenderEditOperation = () => {
     <div>
       <OperationForm operation={modifiedOperation} categories={categoryNames} onSubmit={handleSubmit} />
       <h3>Исходная операция:</h3>
-      {initialOperation.createComponent()}
+      {initialOperation.render()}
       <h3>Обновлённая операция:</h3>
-      {modifiedOperation.createComponent()}
+      {modifiedOperation.render()}
     </div>
   );
 };

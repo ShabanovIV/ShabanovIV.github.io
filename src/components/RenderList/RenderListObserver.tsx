@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
-import { IGenericListItem } from '../Abstract/IGenericListItem';
-import GenericList from './GenericList';
+import RenderList, { IRenderItem } from './RenderList';
 
-export interface IGenericListObserverProps {
+export interface IRenderListObserverProps {
   isGrid?: boolean;
-  items: IGenericListItem[];
+  items: IRenderItem[];
   onLastItem: () => void;
 }
 
-const GenericListObserver: React.FC<IGenericListObserverProps> = ({ isGrid, items, onLastItem }) => {
+const RenderListObserver: React.FC<IRenderListObserverProps> = ({ isGrid, items, onLastItem }) => {
   const [lastItemKey, setLastItemKey] = useState('');
   const prevLastItemKey = useRef('');
   const lastItemRef = useRef<HTMLLIElement | null>(null);
@@ -51,13 +50,8 @@ const GenericListObserver: React.FC<IGenericListObserverProps> = ({ isGrid, item
   }, [lastItemKey]);
 
   return (
-    <GenericList
-      isGrid={isGrid}
-      items={items}
-      lastItemRef={lastItemRef}
-      onLastItemChanged={setLastItemKey}
-    ></GenericList>
+    <RenderList isGrid={isGrid} items={items} lastItemRef={lastItemRef} onLastItemChanged={setLastItemKey}></RenderList>
   );
 };
 
-export default GenericListObserver;
+export default RenderListObserver;

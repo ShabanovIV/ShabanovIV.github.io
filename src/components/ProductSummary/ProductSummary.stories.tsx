@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import ProductSummary from './ProductSummary';
 import React from 'react';
-import { createProductSummary } from '../Helpers/GenericListItemFactory';
+import { createProductSummary } from '../Helpers/RenderItemFactory';
 
 const meta: Meta<typeof ProductSummary> = {
   title: 'components/ProductSummary',
@@ -22,7 +22,7 @@ export const ProductSummaryLargeDescriptionStory: StoryObj<typeof ProductSummary
         <div>
           <p>Полный текст описания: {description}</p>
         </div>
-        {productSummary.createComponent()}
+        {productSummary.render()}
       </>
     );
   },

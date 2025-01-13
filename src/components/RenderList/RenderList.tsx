@@ -1,20 +1,19 @@
-import React from 'react';
-import styles from './GenericList.module.scss';
-import { IGenericListItem } from '../Abstract/IGenericListItem';
+import React, { ReactNode } from 'react';
+import styles from './RenderList.module.scss';
 
-export interface IGenericListProps<TItem extends IGenericListItem> {
+export interface IRenderItem {
+  key: string;
+  render: () => ReactNode;
+}
+
+export interface IRenderListProps {
   isGrid?: boolean;
-  items: TItem[];
+  items: IRenderItem[];
   lastItemRef?: React.MutableRefObject<HTMLLIElement | null>;
   onLastItemChanged: (key: string) => void;
 }
 
-export const GenericList = <TItem extends IGenericListItem>({
-  isGrid,
-  items,
-  lastItemRef,
-  onLastItemChanged,
-}: IGenericListProps<TItem>) => {
+export const RenderList: React.FC<IRenderListProps> = ({ isGrid, items, lastItemRef, onLastItemChanged }) => {
   if (items.length === 0) {
     return <div className={styles.empty}>No items to display</div>;
   }
@@ -30,9 +29,9 @@ type ListItemProps<TItem> = {
   item: TItem;
 };
 
-const ListItem = React.forwardRef<HTMLLIElement, ListItemProps<IGenericListItem>>(({ item }, ref) => (
+const ListItem = React.forwardRef<HTMLLIElement, ListItemProps<IRenderItem>>(({ item }, ref) => (
   <li id={item.key} ref={ref} className={styles.listItem}>
-    {item.createComponent()}
+    {item.render()}
   </li>
 ));
 
@@ -41,7 +40,7 @@ ListItem.displayName = 'ListItem';
 const MemoizedListItem = React.memo(ListItem);
 
 const setRefForLast = (
-  items: IGenericListItem[],
+  items: IRenderItem[],
   index: number,
   onLastItemChanged: (key: string) => void,
   lastItemRef?: React.MutableRefObject<HTMLLIElement | null>
@@ -54,4 +53,4 @@ const setRefForLast = (
   };
 };
 
-export default GenericList;
+export default RenderList;

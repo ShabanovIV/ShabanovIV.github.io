@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import Operation from './Operation';
-import { createOperation } from '../Helpers/GenericListItemFactory';
+import { createOperation } from '../Helpers/RenderItemFactory';
 
 const meta: Meta<typeof Operation> = {
   title: 'components/Operation',
@@ -15,7 +15,7 @@ export const OperationStory: StoryObj<typeof Operation> = {
     const operation = createOperation();
     return (
       <>
-        <div>{operation.createComponent()}</div>
+        <div>{operation.render()}</div>
       </>
     );
   },

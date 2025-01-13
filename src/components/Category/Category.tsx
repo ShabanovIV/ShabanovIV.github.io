@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './Category.module.scss';
-import { IGenericListItem } from '../Abstract/IGenericListItem';
+import { IRenderItem } from '../RenderList/RenderList';
 
-export class CategoryProps implements IGenericListItem {
+export class CategoryProps implements IRenderItem {
   constructor(id: string, name: string, photo?: string) {
     this.id = id;
     this.name = name;
@@ -17,7 +17,7 @@ export class CategoryProps implements IGenericListItem {
     return this.id;
   }
 
-  public createComponent() {
+  public render() {
     return <Category {...this} />;
   }
 }

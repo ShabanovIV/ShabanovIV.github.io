@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import ProductSummary, { ProductSummaryProps } from '../../components/ProductSummary/ProductSummary';
 import ProductForm from './ProductForm';
-import { createProductSummary } from '../../components/Helpers/GenericListItemFactory';
+import { createProductSummary } from '../../components/Helpers/RenderItemFactory';
 
 const meta: Meta<typeof ProductSummary> = {
   title: 'forms/ProductForm',
@@ -47,7 +47,7 @@ const RenderAddProduct = () => {
       <h3>Добавление нового продукта</h3>
       <ProductForm onSubmit={handleAdd} />
       <h3>Добавленный продукт:</h3>
-      {newProduct ? newProduct.createComponent() : <p>Продукт ещё не добавлен</p>}
+      {newProduct ? newProduct.render() : <p>Продукт ещё не добавлен</p>}
     </div>
   );
 };
@@ -80,7 +80,7 @@ const RenderEditProduct = () => {
       <h3>Редактирование продукта</h3>
       <ProductForm product={modifiedProduct} onSubmit={handleEdit} />
       <h3>Обновлённый продукт:</h3>
-      {modifiedProduct.createComponent()}
+      {modifiedProduct.render()}
     </div>
   );
 };

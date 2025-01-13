@@ -1,13 +1,13 @@
-import { IGenericListItem } from 'src/components/Abstract/IGenericListItem';
+import { IRenderItem } from '../RenderList/RenderList';
 import { OperationProps } from '../Operation/Operation';
 import { OperationSummaryProps } from '../OperationSummary/OperationSummary';
 import { ProductSummaryProps } from '../ProductSummary/ProductSummary';
 import { products } from './Products';
-import OperationCategories from './operationCategories.json';
+import OperationCategories from './Operations.json';
 import { v4 as uuidv4 } from 'uuid';
 
-export const createCollection = (count: number, handleCreate: () => IGenericListItem): IGenericListItem[] => {
-  const operations: IGenericListItem[] = [];
+export const createCollection = (count: number, handleCreate: () => IRenderItem): IRenderItem[] => {
+  const operations: IRenderItem[] = [];
 
   while (count-- > 0) {
     operations.push(handleCreate());
@@ -17,7 +17,7 @@ export const createCollection = (count: number, handleCreate: () => IGenericList
 };
 
 // Продукт
-export const createProductSummary = (): IGenericListItem => {
+export const createProductSummary = (): IRenderItem => {
   const productInfo = getRandomProductInfo();
   const productSummary = new ProductSummaryProps(
     uuidv4(),
@@ -31,7 +31,7 @@ export const createProductSummary = (): IGenericListItem => {
 };
 
 // Операция
-export const createOperation = (): IGenericListItem => {
+export const createOperation = (): IRenderItem => {
   const categoryInfo = getRandomOperationCategory();
 
   return new OperationProps(
@@ -45,7 +45,7 @@ export const createOperation = (): IGenericListItem => {
 };
 
 // Сводная по операции
-export const createOperationSummary = (): IGenericListItem => {
+export const createOperationSummary = (): IRenderItem => {
   const categoryInfo = getRandomOperationCategory();
   const operationSummary = new OperationSummaryProps();
   operationSummary.id = uuidv4();

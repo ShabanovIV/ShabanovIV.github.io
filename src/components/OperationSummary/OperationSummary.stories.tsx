@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import OperationSummary from './OperationSummary';
 import React from 'react';
-import { createOperationSummary } from '../Helpers/GenericListItemFactory';
+import { createOperationSummary } from '../Helpers/RenderItemFactory';
 
 const meta: Meta<typeof OperationSummary> = {
   title: 'components/OperationSummary',
@@ -22,7 +22,7 @@ export const OperationSummaryLargeDescriptionStory: StoryObj<typeof OperationSum
         <div>
           <p>Полный текст описания: {description}</p>
         </div>
-        {operationSummary.createComponent()}
+        {operationSummary.render()}
       </>
     );
   },

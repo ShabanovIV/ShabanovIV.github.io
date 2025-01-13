@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './Operation.module.scss';
-import { IGenericListItem } from '../Abstract/IGenericListItem';
+import { IRenderItem } from '../RenderList/RenderList';
 import { rubFormatter } from '../formats';
 
-export class OperationProps implements IGenericListItem {
+export class OperationProps implements IRenderItem {
   constructor(id: string, amount: number, category: string, title: string, description: string, date: Date) {
     this.id = id;
     this.amount = amount;
@@ -24,7 +24,7 @@ export class OperationProps implements IGenericListItem {
     return this.id;
   }
 
-  public createComponent() {
+  public render() {
     return <Operation {...this} />;
   }
 }

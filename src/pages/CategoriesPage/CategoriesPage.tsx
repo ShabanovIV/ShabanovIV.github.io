@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styles from './CategoriesPage.module.scss';
-import GenericListObserver from '../../components/GenericList/GenericListObserver';
-import { CategoryProps } from '../../components/Category/Category';
-import { IGenericListItem } from '../../components/Abstract/IGenericListItem';
-import { useGetCategoriesQuery } from '../../api/categories/categoryApi';
 import Logo from '../../components/Logo/Logo';
+import RenderListObserver from '../../components/RenderList/RenderListObserver';
+import { IRenderItem } from '../../components/RenderList/RenderList';
+import { useGetCategoriesQuery } from '../../api/categories/categoryApi';
+import { CategoryProps } from '../../components/Category/Category';
 import { TextButton } from '../../components/ui/TextButton/TextButton';
 
 const PAGE_SIZE = 10;
@@ -16,7 +16,7 @@ const CategoriesPage: React.FC = () => {
     { pagination: { pageSize: PAGE_SIZE, pageNumber: pageNumber } },
     { skip: pageNumber === 0 }
   );
-  const [categories, setCategories] = useState<IGenericListItem[]>([]);
+  const [categories, setCategories] = useState<IRenderItem[]>([]);
 
   const handleLastItem = useCallback(() => {
     if (!hasMore || isFetching) return;
@@ -45,7 +45,7 @@ const CategoriesPage: React.FC = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Категории</h1>
-      <GenericListObserver isGrid={true} items={categories} onLastItem={handleLastItem} />
+      <RenderListObserver isGrid={true} items={categories} onLastItem={handleLastItem} />
       {isError && <div className={styles.error}>Во время загрузки произошла ошибка.</div>}
       {isError && hasMore && (
         <TextButton

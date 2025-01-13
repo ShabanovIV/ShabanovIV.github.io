@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from './ProductSummary.module.scss';
 import AddToCart from '../AddToCart/AddToCart';
-import { IGenericListItem } from '../Abstract/IGenericListItem';
+import { IRenderItem } from '../RenderList/RenderList';
 import { rubFormatter } from '../formats';
 
-export class ProductSummaryProps implements IGenericListItem {
+export class ProductSummaryProps implements IRenderItem {
   id: string;
   price: number;
   imageUrl: string;
@@ -26,7 +26,7 @@ export class ProductSummaryProps implements IGenericListItem {
     return this.id;
   }
 
-  public createComponent() {
+  public render() {
     return <ProductSummary {...this} />;
   }
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import GenericListObserver from '../../components/GenericList/GenericListObserver';
-import { createCollection, createOperation } from '../../components/Helpers/GenericListItemFactory';
+import RenderListObserver from '../../components/RenderList/RenderListObserver';
+import { createCollection, createOperation } from '../../components/Helpers/RenderItemFactory';
 import styles from './OperationsPage.module.scss';
 
 const OperationsPage: React.FC = () => {
@@ -12,7 +12,7 @@ const OperationsPage: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <GenericListObserver isGrid={false} items={operations} onLastItem={fetchOperations} />
+      <RenderListObserver isGrid={false} items={operations} onLastItem={fetchOperations} />
     </div>
   );
 };

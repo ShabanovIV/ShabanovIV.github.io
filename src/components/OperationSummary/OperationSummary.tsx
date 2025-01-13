@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import styles from './OperationSummary.module.scss';
-import { IGenericListItem } from '../Abstract/IGenericListItem';
+import { IRenderItem } from '../RenderList/RenderList';
 import { rubFormatter } from '../formats';
 
-export class OperationSummaryProps implements IGenericListItem {
+export class OperationSummaryProps implements IRenderItem {
   public id = '';
   public amount = 0;
   public category = '';
@@ -14,7 +14,7 @@ export class OperationSummaryProps implements IGenericListItem {
     return `OperationSummaryProps-${this.id}`;
   }
 
-  public createComponent() {
+  public render() {
     return <OperationSummary {...this} />;
   }
 }
