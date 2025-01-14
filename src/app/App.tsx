@@ -37,7 +37,7 @@ const App: React.FC = () => {
 
   // Сохраняем текущий путь, кроме страницы ошибки (в localStorage и в store)
   useEffect(() => {
-    if (app.currentPath !== location.pathname && location.pathname !== '/error') {
+    if (auth.profile && app.initialized && app.currentPath !== location.pathname && location.pathname !== '/error') {
       dispatch(setCurrentPath(location.pathname));
 
       // Если страница сменилась, не на /error, то удаляем ошибку
@@ -45,19 +45,23 @@ const App: React.FC = () => {
         onRemoveError();
       }
     }
-  }, [location.pathname, app.currentPath, errorData?.type, dispatch, onRemoveError]);
+  }, [location.pathname, app.currentPath, errorData?.type, dispatch, onRemoveError, auth.profile, app.initialized]);
 
   // Переходим на текущий путь
   useEffect(() => {
-    navigate(getCurrentPath());
-  }, [navigate]);
+    const path = getCurrentPath();
+    if (auth.profile) navigate(path !== '' && path !== '/' ? path : '/welcome');
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth.profile]);
 
   // Если ошибка 403, 404 или 5xx, то переходим на страницу ошибки
   useEffect(() => {
     if (isErrorPage(errorData?.type)) {
       navigate('/error');
     }
-  }, [errorData, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [errorData]);
 
   // Если пользователь авторизован, проверяем токен
   // (после того как axios добавил централизованную обработку ошибок)
