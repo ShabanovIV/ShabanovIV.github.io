@@ -57,7 +57,10 @@ const CategoriesPage: React.FC = () => {
     try {
       if (isCreateCategory) {
         const result = await createCategory({ name: category.name, photo: category.photo }).unwrap();
-        setCategories((prev) => [...prev, new CategoryProps(result.id, result.name, handleShowForm, result.photo)]);
+
+        if (!hasMore)
+          setCategories((prev) => [...prev, new CategoryProps(result.id, result.name, handleShowForm, result.photo)]);
+
         setIsCreateCategory(false);
         return;
       }
