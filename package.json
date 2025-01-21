@@ -1,6 +1,7 @@
 {
   "name": "react-start-template",
   "version": "1.0.0",
+  "homepage": "https://shabanoviv.github.io/homeworks",
   "description": "Start repo with required configuration",
   "main": "src/index.tsx",
   "author": "Igor <spirit-drive@yandex.ru>",
