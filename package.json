@@ -1,7 +1,7 @@
 {
   "name": "react-start-template",
   "version": "1.0.0",
-  "homepage": "https://shabanoviv.github.io/homeworks",
+  "homepage": "https://shabanoviv.github.io/shabanoviv.github.io",
   "description": "Start repo with required configuration",
   "main": "src/index.tsx",
   "author": "Igor <spirit-drive@yandex.ru>",
@@ -89,7 +89,6 @@
     "react-i18next": "^15.1.1",
     "react-router-dom": "^7.1.0",
     "react-redux": "^9.2.0",
-    "react-router-dom": "^7.1.0",
     "redux-persist": "^6.0.0",
     "uuid": "^10.0.0"
   }
