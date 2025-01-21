@@ -34,7 +34,7 @@ module.exports = (_, args) => {
       publicPath:
         args.mode === 'development'
           ? `http://${host}:${port}/`
-          : '/shabanoviv.github.io/' /* <- прописать данные своего github */,
+          : '/react-start-template/' /* <- прописать данные своего github */,
       filename: `js/[name].js`,
       chunkFilename: `js/[name].js`,
     },
